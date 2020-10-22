@@ -1,3 +1,6 @@
+const ADD_POST = "ADD-POST";
+const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
+
 export type PostType = {
     id: number
     message: string
@@ -96,5 +99,16 @@ let store: StoreType = {
         }
     }
 };
+
+export const addPostActionCreator = ():AddPostActionType => {
+    return {
+        type:ADD_POST
+    }
+}
+export const updateNewPostTextActionCreator = (newText:string):UpdateNewPostTextActionType => {
+    return {
+        type: UPDATE_NEW_POST_TEXT, newText: newText
+    }
+}
 
 export default store;

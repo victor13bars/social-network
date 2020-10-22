@@ -31,11 +31,18 @@ export type SidebarType = {}
 
 export type StoreType = {
     _state: StateType
-    updateNewPostText: (newText: string) => void
-    addPost: () => void
     _callSubscriber: () => void
     subscribe: (observer: () => void) => void
     getState: () => StateType
+    dispatch: (action: AddPostActionType | UpdateNewPostTextActionType) => void
+}
+
+export type AddPostActionType = {
+    type: "ADD-POST"
+}
+export type UpdateNewPostTextActionType = {
+    type: "UPDATE-NEW-POST-TEXT"
+    newText: string
 }
 
 let store: StoreType = {
@@ -74,19 +81,20 @@ let store: StoreType = {
     _callSubscriber() {
         console.log("State change");
     },
-    addPost() {
-        const newPost: PostType = {id: 5, message: this._state.profilePage.messageForNewPost, likeCount: 0};
-        this._state.profilePage.posts.push(newPost);
-        this._state.profilePage.messageForNewPost = "";
-        this._callSubscriber();
-    },
-    updateNewPostText(newText: string) {
-        this._state.profilePage.messageForNewPost = newText;
-        this._callSubscriber();
-    },
     subscribe(observer) {
         this._callSubscriber = observer;
+    },
+    dispatch(action) {
+        if (action.type === "ADD-POST") {
+            const newPost: PostType = {id: 5, message: this._state.profilePage.messageForNewPost, likeCount: 0};
+            this._state.profilePage.posts.push(newPost);
+            this._state.profilePage.messageForNewPost = "";
+            this._callSubscriber();
+        } else if (action.type === "UPDATE-NEW-POST-TEXT") {
+            this._state.profilePage.messageForNewPost = action.newText;
+            this._callSubscriber();
+        }
     }
-}
+};
 
 export default store;

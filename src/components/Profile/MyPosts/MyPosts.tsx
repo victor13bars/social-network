@@ -11,19 +11,22 @@ import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../red
 type MyPostsType = {
     newPostText: string
     posts: Array<PostType>
-    dispatch: (action: AddPostActionType | UpdateNewPostTextActionType) => void
+    addPost: () => void
+    updateNewPostText: (text:string) => void
 }
 
 const MyPosts = (props: MyPostsType) => {
     let postsElements = props.posts.map(p => <Post id={p.id} message={p.message} likeCount={p.likeCount}/>)
 
-    let addPost = () => {
-        props.dispatch(addPostActionCreator());
+    let onAddPost = () => {
+        props.addPost();
+        //props.dispatch(addPostActionCreator());
     }
 
     let onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let text = e.currentTarget.value;
-        props.dispatch(updateNewPostTextActionCreator(text))
+        props.updateNewPostText(text);
+        //props.dispatch(updateNewPostTextActionCreator(text))
     }
 
     return (
@@ -35,7 +38,7 @@ const MyPosts = (props: MyPostsType) => {
                     <textarea value={props.newPostText} onChange={onPostChange}/>
                 </div>
                 <div>
-                    <button onClick={addPost}>Add post</button>
+                    <button onClick={onAddPost}>Add post</button>
                 </div>
             </div>
             <div className={classes.posts}>

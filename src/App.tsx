@@ -17,25 +17,23 @@ import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 import dialogsReducer from "./redux/dialogs-reducer";
 import {reducerType} from "./redux/redux-store";
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
 
 type AppType = {
-    state: any
+    store: any
     dispatch: (action: AddPostActionType | UpdateNewPostTextActionType | UpdateNewMessageBodyActionType | SendMessageActionType) => void
 }
 
 function App(props: AppType) {
-    console.log(props.state);
-    console.log(props.state.dialogsPage)
+    console.log(props.store);
     return (
         <BrowserRouter>
             <div className='app-wrapper'>
                 <Header/>
                 <Navbar/>
                 <div className='app-wrapper-content'>
-                    <Route path='/dialogs' render={() => <Dialogs state={props.state["dialogsReducer"]}
-                                                                  dispatch={props.dispatch}/>}/>
-                    <Route path='/profile' render={() => <Profile profilePage={props.state["profileReducer"]}
-                                                                  dispatch={props.dispatch}/>}/>
+                    <Route path='/dialogs' render={() => <DialogsContainer store={props.store} />}/>
+                    <Route path='/profile' render={() => <Profile store={props.store} />}/>
                     <Route path='/news' component={News}/>
                     <Route path='/music' component={Music}/>
                     <Route path='/settings' component={Settings}/>

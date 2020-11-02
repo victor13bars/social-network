@@ -11,8 +11,8 @@ import {
 } from "./store";
 
 export type reducerType = {
-    profileReducer: (state: ProfilePageType, action: AddPostActionType | UpdateNewPostTextActionType | UpdateNewMessageBodyActionType | SendMessageActionType) => void,
-    dialogsReducer: (state: MessagesPagesType, action: AddPostActionType | UpdateNewPostTextActionType | UpdateNewMessageBodyActionType | SendMessageActionType) =>void,
+    profileReducer: () => void,
+    dialogsReducer: () =>void,
     sidebarReducer: () => void
 
 }

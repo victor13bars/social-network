@@ -6,7 +6,7 @@ import {
     AddPostActionType,
     MessagesPagesType, SendMessageActionType,UpdateNewMessageBodyActionType,
     UpdateNewPostTextActionType
-} from "../../redux/state";
+} from "../../redux/store";
 import {sendMessageCreator, updateNewMessageBodyCreator} from "../../redux/dialogs-reducer";
 
 
@@ -16,7 +16,8 @@ type DialogsType = {
 }
 
 const Dialogs = (props: DialogsType) => {
-
+    console.log(props.state)
+    console.log(props.state.dialogs)
 
     let dialogsItems = props.state.dialogs.map(dialog => (<DialogItem id={dialog.id} name={dialog.name}/>));
     let messagesItems = props.state.messages.map(ms => <Message id={ms.id} message={ms.message}/>);

@@ -3,13 +3,15 @@ import {
     AddPostActionType,
     PostType, ProfilePageType,
     UpdateNewPostTextActionType
-} from "./state";
+} from "./store";
 
 const ADD_POST = "ADD-POST";
 const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
 
-export const sidebarReducer = () => {
+let initialState = {}
 
+export const sidebarReducer = (state = initialState) => {
 
+    return state;
 }
 export default sidebarReducer;

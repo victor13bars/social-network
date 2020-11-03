@@ -9,11 +9,11 @@ type ProfileType = {
     store: any
 }
 
-const Profile = (props: ProfileType) => {
+const Profile = () => {
     return (
         <div>
             <ProfileInfo/>
-            <MyPostsContainer store={props.store}/>
+            <MyPostsContainer />
         </div>
     )
 }

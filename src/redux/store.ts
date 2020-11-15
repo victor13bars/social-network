@@ -32,6 +32,9 @@ export type StateType = {
     sidebar: SidebarType
 }
 export type SidebarType = {}
+export type ActionType = {
+    action: AddPostActionType | UpdateNewPostTextActionType | UpdateNewMessageBodyActionType | SendMessageActionType
+}
 export type StoreType = {
     _state: StateType
     _callSubscriber: () => void

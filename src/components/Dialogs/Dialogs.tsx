@@ -11,9 +11,10 @@ type DialogsType = {
 }
 
 const Dialogs = (props: DialogsType) => {
+    console.log(props.state)
 
-    let dialogsItems = props.state.dialogs.map(dialog => (<DialogItem id={dialog.id} name={dialog.name}/>));
-    let messagesItems = props.state.messages.map(ms => <Message id={ms.id} message={ms.message}/>);
+    let dialogsItems = props.state.dialogs.map(dialog => (<DialogItem id={dialog.id} key={dialog.id} name={dialog.name}/>));
+    let messagesItems = props.state.messages.map(ms => <Message id={ms.id} message={ms.message} key={ms.id}/>);
     let newMessageBody = props.state.newMessageBody;
 
     let onSendMessageClick = () => {

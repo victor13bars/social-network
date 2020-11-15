@@ -4,7 +4,6 @@ import {
     PostType, ProfilePageType, SendMessageActionType, UpdateNewMessageBodyActionType,
     UpdateNewPostTextActionType
 } from "./store";
-import {act} from "react-dom/test-utils";
 
 const ADD_POST = "ADD-POST";
 const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
@@ -17,16 +16,22 @@ let initialState = {
     messageForNewPost: ""
 }
 
-const profileReducer = (state:ProfilePageType = initialState, action:AddPostActionType | UpdateNewPostTextActionType | UpdateNewMessageBodyActionType | SendMessageActionType) => {
-    switch (action.type){
-        case ADD_POST:
+const profileReducer = (state: ProfilePageType = initialState, action: AddPostActionType | UpdateNewPostTextActionType | UpdateNewMessageBodyActionType | SendMessageActionType) => {
+    switch (action.type) {
+        case ADD_POST: {
             const newPost: PostType = {id: 5, message: state.messageForNewPost, likeCount: 0};
-            state.posts.push(newPost);
-            state.messageForNewPost = "";
-            return state;
-        case UPDATE_NEW_POST_TEXT:
-            state.messageForNewPost = action.newText;
-            return state;
+            return {
+                ...state,
+                messageForNewPost: "",
+                posts: [...state.posts, newPost]
+            }
+        }
+        case UPDATE_NEW_POST_TEXT: {
+            return {
+                ...state,
+                messageForNewPost: action.newText
+            }
+        }
         default:
             return state;
     }

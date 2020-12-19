@@ -1,12 +1,27 @@
 import React from 'react';
-import {
-    AddPostActionType,
-    MessagesPagesType,
-    SendMessageActionType, UpdateNewMessageBodyActionType, UpdateNewPostTextActionType
-} from "./store";
 
-const UPDATE_NEW_MESSAGE_BODY = "UPDATE-NEW-MESSAGE-BODY";
-const SEND_MESSAGE = "SEND-MESSAGE";
+import {ACTIONS_TYPE, DialogsReducersTypes} from "./action";
+
+export type DialogType = {
+    id: number
+    name: string
+}
+export type MessageType = {
+    id: number
+    message: string
+}
+export type MessagesPagesType = {
+    dialogs: Array<DialogType>
+    messages: Array<MessageType>
+    newMessageBody: string
+}
+export type DialogsType = {
+    dialogs: Array<DialogType>
+    messages: Array<MessageType>
+    newMessageBody: string
+    updateNewMessageBody: (body: string) => void
+    sendMessage: () => void
+}
 
 let initialState = {
     dialogs: [
@@ -28,16 +43,16 @@ let initialState = {
     newMessageBody: ""
 }
 
-const dialogsReducer = (state: MessagesPagesType = initialState, action: AddPostActionType | UpdateNewPostTextActionType | UpdateNewMessageBodyActionType | SendMessageActionType) => {
+const dialogsReducer = (state: MessagesPagesType = initialState, action: DialogsReducersTypes) => {
 
 
     switch (action.type) {
-        case "UPDATE-NEW-MESSAGE-BODY":
+        case ACTIONS_TYPE.UPDATE_NEW_MESSAGE_BODY:
             return {
                 ...state,
                 newMessageBody: action.body
             }
-        case "SEND-MESSAGE":
+        case ACTIONS_TYPE.SEND_MESSAGE:
             let body = state.newMessageBody;
             return {
                 ...state,
@@ -46,16 +61,6 @@ const dialogsReducer = (state: MessagesPagesType = initialState, action: AddPost
             }
         default:
             return state;
-    }
-}
-export const sendMessageCreator = (): SendMessageActionType => {
-    return {
-        type: SEND_MESSAGE
-    }
-}
-export const updateNewMessageBodyCreator = (body: string): UpdateNewMessageBodyActionType => {
-    return {
-        type: UPDATE_NEW_MESSAGE_BODY, body: body
     }
 }
 

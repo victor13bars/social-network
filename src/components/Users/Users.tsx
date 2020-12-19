@@ -1,45 +1,34 @@
 import React from 'react';
-import {SetUsersACType, UsersType, UserType} from "../../redux/users-reducer";
+
 import styles from "./users.module.css"
+// import * as axios from "axios";
+import axios from "axios";
+import userPhoto from "../../assets/images/user.png"
+import {UserType} from "../../redux/users-reducer";
 
 type PropsUserType = {
     users: Array<UserType>,
     follow: (id: number) => void,
     unfollow: (id: number) => void,
-    setUsers: (users: any) => void
+    setUsers: (users: Array<UserType>) => void
 }
 let Users = (props: PropsUserType) => {
 
-    if (props.users.length === 0) {
-        props.setUsers([
-            {
-                id: 1,
-                photoUrl: "https://www.nastol.com.ua/download.php?img=201212/1440x900/nastol.com.ua-37486.jpg",
-                followed: false,
-                fullname: "I'am a boss",
-                location: {city: "Zhodino", country: "Belarus"}
-            },
-            {
-                id: 2,
-                photoUrl: "https://f3.upet.com/P_LOy49X6Hub_u.jpg",
-                followed: true,
-                fullname: "Viktor.S",
-                location: {city: "Los Angeles", country: "USA"}
-            },
-            {
-                id: 3,
-                photoUrl: "https://wallbox.ru/resize/1024x768/wallpapers/main/201522/d05a059101136c6.jpg",
-                followed: false,
-                fullname: "Mihel.K",
-                location: {city: "Barsuki", country: "Russia"}
-            },
-        ])
+    let getUsers = () => {
+
+        if (props.users.length === 0) {
+
+            axios.get("https://social-network.samuraijs.com/api/1.0/users").then(response => {
+                props.setUsers(response.data.items)
+            });
+        }
     }
     return <div>
+        <button onClick={getUsers}>Get Users</button>
         {props.users.map(u => <div key={u.id}>
             <span>
                 <div>
-                    <img src={u.photoUrl} className={styles.userPhoto}/>
+                    <img src={u.photos.small != null ? u.photos.small : userPhoto} className={styles.userPhoto}/>
                 </div>
                 <div>
                     {u.followed
@@ -53,12 +42,12 @@ let Users = (props: PropsUserType) => {
             </span>
             <span>
                 <span>
-                    <div>{u.fullname}</div>
-                    <div>{u.fullname}</div>
+                    <div>{u.name}</div>
+                    <div>{u.status}</div>
                 </span>
                  <span>
-                     <div>{u.location.country}</div>
-                     <div>{u.location.city}</div>
+                     <div>{"u.location.country"}</div>
+                     <div>{"u.location.city"}</div>
                  </span>
             </span>
         </div>)}

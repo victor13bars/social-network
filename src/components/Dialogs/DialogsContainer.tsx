@@ -1,22 +1,25 @@
 import React, {ChangeEvent, Consumer} from "react";
-import {sendMessageCreator, updateNewMessageBodyCreator} from "../../redux/dialogs-reducer";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
-import {MessagesPagesType} from "../../redux/store";
+import {Dispatch} from "redux";
+import {DialogsReducersTypes, sendMessageAC, updateNewMessageBodyAC} from "../../redux/action";
+import {AppStateType} from "../../redux/redux-store";
 
-let mapStateToProps = (state: any) => {
+let mapStateToProps = (state: AppStateType) => {
     return {
-        state: state.dialogsReducer
+        dialogs: state.dialogsPage.dialogs,
+        messages:state.dialogsPage.messages,
+        newMessageBody:state.dialogsPage.newMessageBody
     }
 }
-let mapDispatchToProps = (dispatch: any) => {
+let mapDispatchToProps = (dispatch: Dispatch<DialogsReducersTypes>) => {
     return {
         updateNewMessageBody: (body: string) => {
-            dispatch(updateNewMessageBodyCreator(body))
+            dispatch(updateNewMessageBodyAC(body))
 
         },
         sendMessage: () => {
-            dispatch(sendMessageCreator())
+            dispatch(sendMessageAC())
         }
     }
 }

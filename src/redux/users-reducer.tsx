@@ -1,29 +1,19 @@
 import React from 'react';
-const SET_USERS = "SET_USERS"
-const FOLLOW = "FOLLOW";
-const UNFOLLOW = "UNFOLLOW";
+import {ACTIONS_TYPE, UsersReducersTypes} from "./action";
 
-export type FollowACType = {
-    type: "FOLLOW",
-    id: number
-}
-export type UnFollowACType = {
-    type: "UNFOLLOW",
-    id: number
-}
-export type SetUsersACType = {
-    type: "SET_USERS",
-    users: Array<UserType>
-}
 export type UserType = {
     id: number,
-    photoUrl:string,
+    photos:{
+        small:string,
+        large:string
+    },
     followed: boolean,
-    fullname: string,
+    name: string,
     location: {
         city: string,
         country: string
-    }
+    },
+    status:string
 }
 export type UsersType = {
     users: Array<UserType>
@@ -36,9 +26,9 @@ let initialState = {
     ]
 }
 
-const usersReducer = (state: UsersType = initialState, action: FollowACType | UnFollowACType | SetUsersACType) => {
+export const usersReducer = (state: UsersType = initialState, action: UsersReducersTypes) => {
     switch (action.type) {
-        case FOLLOW:
+        case ACTIONS_TYPE.FOLLOW:
             return {
                 ...state,
                 users: state.users.map(u => {
@@ -48,7 +38,7 @@ const usersReducer = (state: UsersType = initialState, action: FollowACType | Un
                     return u;
                 })
             }
-        case UNFOLLOW:
+        case ACTIONS_TYPE.UNFOLLOW:
             return {
                 ...state,
                 users: state.users.map(u => {
@@ -58,28 +48,10 @@ const usersReducer = (state: UsersType = initialState, action: FollowACType | Un
                     return u;
                 })
             }
-        case SET_USERS:
+        case ACTIONS_TYPE.SET_USERS:
             return {...state,users:[...state.users,...action.users]}
         default:
             return state;
-    }
-}
-export const followAC = (userId: number): FollowACType => {
-    return {
-        type: FOLLOW,
-        id: userId
-    }
-}
-export const unfollowAC = (userId: number): UnFollowACType => {
-    return {
-        type: UNFOLLOW,
-        id: userId
-    }
-}
-export const setUsersAC = (users:Array<UserType>): SetUsersACType => {
-    return {
-        type: SET_USERS,
-        users:users
     }
 }
 

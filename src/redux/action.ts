@@ -1,5 +1,7 @@
 import {UserType} from "./users-reducer";
 export enum ACTIONS_TYPE {
+    SET_TOTAL_COUNT ='USERS/SET_TOTAL_COUNT',
+    SET_CURRENT_PAGE ='USERS/SET_CURRENT_PAGE',
     SET_USERS = 'USERS/SET_USERS',
     FOLLOW = 'USERS/FOLLOW',
     UNFOLLOW = 'USERS/UNFOLLOW',
@@ -7,6 +9,29 @@ export enum ACTIONS_TYPE {
     UPDATE_NEW_POST_TEXT = "PROFILE/UPDATE-NEW-POST-TEXT",
     SEND_MESSAGE = "DIALOGS/SEND-MESSAGE",
     UPDATE_NEW_MESSAGE_BODY = "DIALOGS/UPDATE-NEW-MESSAGE-BODY"
+}
+export type SetTotalUsersCountACType = {
+    type: ACTIONS_TYPE.SET_TOTAL_COUNT,
+    totalUsersCount:number
+}
+export const setTotalUsersCountAC = (totalUsersCount:number): SetTotalUsersCountACType => {
+    return {
+        type: ACTIONS_TYPE.SET_TOTAL_COUNT,
+        totalUsersCount: totalUsersCount
+
+    }
+}
+
+export type SetCurrentPageACType = {
+    type: ACTIONS_TYPE.SET_CURRENT_PAGE,
+    currentPage:number
+}
+export const setCurrentPageAC = (currentPage:number): SetCurrentPageACType => {
+    return {
+        type: ACTIONS_TYPE.SET_CURRENT_PAGE,
+        currentPage: currentPage
+
+    }
 }
 
 export type FollowACType = {
@@ -42,7 +67,7 @@ export const setUsersAC = (users:Array<UserType>): SetUsersACType => {
     }
 }
 
-export type UsersReducersTypes = FollowACType | UnFollowACType | SetUsersACType;
+export type UsersReducersTypes = FollowACType | UnFollowACType | SetUsersACType | SetCurrentPageACType | SetTotalUsersCountACType;
 
 export type AddPostActionType = {
     type: ACTIONS_TYPE.ADD_POST

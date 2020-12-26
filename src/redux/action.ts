@@ -1,7 +1,9 @@
 import {UserType} from "./users-reducer";
+
 export enum ACTIONS_TYPE {
-    SET_TOTAL_COUNT ='USERS/SET_TOTAL_COUNT',
-    SET_CURRENT_PAGE ='USERS/SET_CURRENT_PAGE',
+    TOGGLE_IS_FETCHING = 'TOGGLE/IS_FETCHING',
+    SET_TOTAL_COUNT = 'USERS/SET_TOTAL_COUNT',
+    SET_CURRENT_PAGE = 'USERS/SET_CURRENT_PAGE',
     SET_USERS = 'USERS/SET_USERS',
     FOLLOW = 'USERS/FOLLOW',
     UNFOLLOW = 'USERS/UNFOLLOW',
@@ -10,11 +12,24 @@ export enum ACTIONS_TYPE {
     SEND_MESSAGE = "DIALOGS/SEND-MESSAGE",
     UPDATE_NEW_MESSAGE_BODY = "DIALOGS/UPDATE-NEW-MESSAGE-BODY"
 }
+
+export type ToggleIsFetchingACType = {
+    type: ACTIONS_TYPE.TOGGLE_IS_FETCHING,
+    isFetching: boolean
+}
+
+export const toggleIsFetchingAC = (isFetching: boolean): ToggleIsFetchingACType => {
+    return {
+        type: ACTIONS_TYPE.TOGGLE_IS_FETCHING,
+        isFetching: isFetching
+    }
+}
+
 export type SetTotalUsersCountACType = {
     type: ACTIONS_TYPE.SET_TOTAL_COUNT,
-    totalUsersCount:number
+    totalUsersCount: number
 }
-export const setTotalUsersCountAC = (totalUsersCount:number): SetTotalUsersCountACType => {
+export const setTotalUsersCountAC = (totalUsersCount: number): SetTotalUsersCountACType => {
     return {
         type: ACTIONS_TYPE.SET_TOTAL_COUNT,
         totalUsersCount: totalUsersCount
@@ -24,9 +39,9 @@ export const setTotalUsersCountAC = (totalUsersCount:number): SetTotalUsersCount
 
 export type SetCurrentPageACType = {
     type: ACTIONS_TYPE.SET_CURRENT_PAGE,
-    currentPage:number
+    currentPage: number
 }
-export const setCurrentPageAC = (currentPage:number): SetCurrentPageACType => {
+export const setCurrentPageAC = (currentPage: number): SetCurrentPageACType => {
     return {
         type: ACTIONS_TYPE.SET_CURRENT_PAGE,
         currentPage: currentPage
@@ -60,14 +75,20 @@ export type SetUsersACType = {
     type: ACTIONS_TYPE.SET_USERS,
     users: Array<UserType>
 }
-export const setUsersAC = (users:Array<UserType>): SetUsersACType => {
+export const setUsersAC = (users: Array<UserType>): SetUsersACType => {
     return {
         type: ACTIONS_TYPE.SET_USERS,
-        users:users
+        users: users
     }
 }
 
-export type UsersReducersTypes = FollowACType | UnFollowACType | SetUsersACType | SetCurrentPageACType | SetTotalUsersCountACType;
+export type UsersReducersTypes =
+    FollowACType
+    | UnFollowACType
+    | SetUsersACType
+    | SetCurrentPageACType
+    | SetTotalUsersCountACType
+    | ToggleIsFetchingACType;
 
 export type AddPostActionType = {
     type: ACTIONS_TYPE.ADD_POST

@@ -2,11 +2,33 @@ import React from 'react';
 import {ACTIONS_TYPE, ProfileReducersTypes} from "./action";
 import {PostType} from "../components/Profile/MyPosts/MyPosts";
 
-
-
+export type ContactsType = {
+    facebook: string,
+    website: string,
+    vk: string,
+    twitter: string,
+    instagram: string,
+    youtube: string,
+    github: string,
+    mainLink: string
+}
+export type PhotosType = {
+    small: string,
+    large:string
+}
+export type ProfileInfoType = {
+    aboutMe:string,
+    contacts:ContactsType,
+    lookingForAJob:boolean,
+    lookingForAJobDescription:string,
+    fullName:string,
+    userId:number,
+    photos:PhotosType
+}
 export type ProfilePageType = {
     posts: Array<PostType>
     messageForNewPost: string
+    profile:null | ProfileInfoType
 }
 
 let initialState = {
@@ -14,7 +36,8 @@ let initialState = {
         {id: 1, message: "Hello", likeCount: 12},
         {id: 2, message: "How are you?", likeCount: 25},
     ],
-    messageForNewPost: ""
+    messageForNewPost: "IT-KAMASUTRA.COM",
+    profile:null
 }
 
 const profileReducer = (state: ProfilePageType = initialState, action: ProfileReducersTypes) => {
@@ -31,6 +54,12 @@ const profileReducer = (state: ProfilePageType = initialState, action: ProfileRe
             return {
                 ...state,
                 messageForNewPost: action.newText
+            }
+        }
+        case ACTIONS_TYPE.SET_USER_PROFILE: {
+            return {
+                ...state,
+                profile: action.profile
             }
         }
         default:

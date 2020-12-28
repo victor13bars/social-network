@@ -10,11 +10,9 @@ import {
     toggleIsFetching
 } from "../../redux/action";
 import {AppStateType} from "../../redux/redux-store";
-import {Dispatch} from "redux";
 import {UserType} from "../../redux/users-reducer";
 import axios from "axios";
 import Users from "./Users";
-import preloader from './../../assets/images/preloader.svg';
 import Preloader from "../common/Preloader/Preloader";
 
 type PropsUserType = {

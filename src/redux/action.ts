@@ -1,4 +1,5 @@
 import {UserType} from "./users-reducer";
+import {ProfileInfoType} from "./profile-reducer";
 
 export enum ACTIONS_TYPE {
     TOGGLE_IS_FETCHING = 'TOGGLE/IS_FETCHING',
@@ -8,6 +9,7 @@ export enum ACTIONS_TYPE {
     FOLLOW = 'USERS/FOLLOW',
     UNFOLLOW = 'USERS/UNFOLLOW',
     ADD_POST = "PROFILE/ADD-POST",
+    SET_USER_PROFILE = "PROFILE/SET-USER-PROFILE",
     UPDATE_NEW_POST_TEXT = "PROFILE/UPDATE-NEW-POST-TEXT",
     SEND_MESSAGE = "DIALOGS/SEND-MESSAGE",
     UPDATE_NEW_MESSAGE_BODY = "DIALOGS/UPDATE-NEW-MESSAGE-BODY"
@@ -90,6 +92,17 @@ export type UsersReducersTypes =
     | SetTotalUsersCountACType
     | ToggleIsFetchingACType;
 
+export type SetUserProfileACType = {
+    type:ACTIONS_TYPE.SET_USER_PROFILE,
+    profile:any
+}
+export const setUserProfile = (profile:ProfileInfoType): SetUserProfileACType => {
+    return {
+        type: ACTIONS_TYPE.SET_USER_PROFILE,
+        profile:profile
+    }
+}
+
 export type AddPostActionType = {
     type: ACTIONS_TYPE.ADD_POST
 }
@@ -109,7 +122,7 @@ export const updateNewPostTextAC = (newText: string): UpdateNewPostTextActionTyp
     }
 }
 
-export type ProfileReducersTypes = UpdateNewPostTextActionType | AddPostActionType;
+export type ProfileReducersTypes = UpdateNewPostTextActionType | AddPostActionType | SetUserProfileACType;
 
 export type UpdateNewMessageBodyActionType = {
     type: ACTIONS_TYPE.UPDATE_NEW_MESSAGE_BODY

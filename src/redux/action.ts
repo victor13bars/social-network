@@ -18,7 +18,7 @@ export type ToggleIsFetchingACType = {
     isFetching: boolean
 }
 
-export const toggleIsFetchingAC = (isFetching: boolean): ToggleIsFetchingACType => {
+export const toggleIsFetching = (isFetching: boolean): ToggleIsFetchingACType => {
     return {
         type: ACTIONS_TYPE.TOGGLE_IS_FETCHING,
         isFetching: isFetching
@@ -29,7 +29,7 @@ export type SetTotalUsersCountACType = {
     type: ACTIONS_TYPE.SET_TOTAL_COUNT,
     totalUsersCount: number
 }
-export const setTotalUsersCountAC = (totalUsersCount: number): SetTotalUsersCountACType => {
+export const setTotalUsersCount = (totalUsersCount: number): SetTotalUsersCountACType => {
     return {
         type: ACTIONS_TYPE.SET_TOTAL_COUNT,
         totalUsersCount: totalUsersCount
@@ -41,7 +41,7 @@ export type SetCurrentPageACType = {
     type: ACTIONS_TYPE.SET_CURRENT_PAGE,
     currentPage: number
 }
-export const setCurrentPageAC = (currentPage: number): SetCurrentPageACType => {
+export const setCurrentPage = (currentPage: number): SetCurrentPageACType => {
     return {
         type: ACTIONS_TYPE.SET_CURRENT_PAGE,
         currentPage: currentPage
@@ -53,7 +53,7 @@ export type FollowACType = {
     type: ACTIONS_TYPE.FOLLOW,
     id: number
 }
-export const followAC = (userId: number): FollowACType => {
+export const follow = (userId: number): FollowACType => {
     return {
         type: ACTIONS_TYPE.FOLLOW,
         id: userId
@@ -64,7 +64,7 @@ export type UnFollowACType = {
     type: ACTIONS_TYPE.UNFOLLOW,
     id: number
 }
-export const unfollowAC = (userId: number): UnFollowACType => {
+export const unfollow = (userId: number): UnFollowACType => {
     return {
         type: ACTIONS_TYPE.UNFOLLOW,
         id: userId
@@ -75,7 +75,7 @@ export type SetUsersACType = {
     type: ACTIONS_TYPE.SET_USERS,
     users: Array<UserType>
 }
-export const setUsersAC = (users: Array<UserType>): SetUsersACType => {
+export const setUsers = (users: Array<UserType>): SetUsersACType => {
     return {
         type: ACTIONS_TYPE.SET_USERS,
         users: users

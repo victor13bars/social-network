@@ -15,6 +15,8 @@ export enum ACTIONS_TYPE {
     UPDATE_NEW_MESSAGE_BODY = "DIALOGS/UPDATE-NEW-MESSAGE-BODY"
 }
 
+
+
 export type ToggleIsFetchingACType = {
     type: ACTIONS_TYPE.TOGGLE_IS_FETCHING,
     isFetching: boolean
@@ -94,7 +96,7 @@ export type UsersReducersTypes =
 
 export type SetUserProfileACType = {
     type:ACTIONS_TYPE.SET_USER_PROFILE,
-    profile:any
+    profile:ProfileInfoType
 }
 export const setUserProfile = (profile:ProfileInfoType): SetUserProfileACType => {
     return {

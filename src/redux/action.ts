@@ -3,6 +3,7 @@ import {ProfileInfoType} from "./profile-reducer";
 
 export enum ACTIONS_TYPE {
     TOGGLE_IS_FETCHING = 'TOGGLE/IS_FETCHING',
+    TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE/IS_FOLLOWING_PROGRESS',
     SET_TOTAL_COUNT = 'USERS/SET_TOTAL_COUNT',
     SET_CURRENT_PAGE = 'USERS/SET_CURRENT_PAGE',
     SET_USERS = 'USERS/SET_USERS',
@@ -26,6 +27,20 @@ export const toggleIsFetching = (isFetching: boolean): ToggleIsFetchingACType =>
     return {
         type: ACTIONS_TYPE.TOGGLE_IS_FETCHING,
         isFetching: isFetching
+    }
+}
+
+export type ToggleIsFollowingACType = {
+    type: ACTIONS_TYPE.TOGGLE_IS_FOLLOWING_PROGRESS,
+    isFetching: boolean,
+    userId:number
+}
+
+export const toggleIsFollowing = (isFetching: boolean,userId:number): ToggleIsFollowingACType => {
+    return {
+        type: ACTIONS_TYPE.TOGGLE_IS_FOLLOWING_PROGRESS,
+        isFetching: isFetching,
+        userId:userId
     }
 }
 
@@ -92,7 +107,8 @@ export type UsersReducersTypes =
     | SetUsersACType
     | SetCurrentPageACType
     | SetTotalUsersCountACType
-    | ToggleIsFetchingACType;
+    | ToggleIsFetchingACType
+    | ToggleIsFollowingACType;
 
 export type SetUserProfileACType = {
     type:ACTIONS_TYPE.SET_USER_PROFILE,

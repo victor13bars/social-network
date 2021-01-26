@@ -2,11 +2,21 @@ import React, {ChangeEvent} from "react";
 import classes from "./Dialogs.module.css"
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import {DialogsType} from "../../redux/dialogs-reducer";
+import {DialogType, MessageType} from "../../redux/dialogs-reducer";
+import { Redirect } from "react-router-dom";
+
+export type DialogsPropsType = {
+    dialogs: Array<DialogType>
+    messages: Array<MessageType>
+    newMessageBody: string
+    updateNewMessageBody: (body: string) => void
+    sendMessage: () => void,
+    isAuth:boolean
+
+}
 
 
-const Dialogs = (props: DialogsType) => {
-    console.log(props)
+const Dialogs = (props: DialogsPropsType) => {
 
     let dialogsItems = props.dialogs.map(dialog => (<DialogItem id={dialog.id} key={dialog.id} name={dialog.name}/>));
     let messagesItems = props.messages.map(ms => <Message id={ms.id} message={ms.message} key={ms.id}/>);
@@ -22,6 +32,8 @@ const Dialogs = (props: DialogsType) => {
         props.updateNewMessageBody(body);
 
     }
+
+    if(!props.isAuth) return <Redirect to={'/login'} />
 
     return (
         <div className={classes.dialogs}>

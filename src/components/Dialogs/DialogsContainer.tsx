@@ -9,7 +9,8 @@ let mapStateToProps = (state: AppStateType) => {
     return {
         dialogs: state.dialogsPage.dialogs,
         messages:state.dialogsPage.messages,
-        newMessageBody:state.dialogsPage.newMessageBody
+        newMessageBody:state.dialogsPage.newMessageBody,
+        isAuth:state.auth.isAuth
     }
 }
 let mapDispatchToProps = (dispatch: Dispatch<DialogsReducersTypes>) => {

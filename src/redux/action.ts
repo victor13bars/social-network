@@ -121,6 +121,15 @@ export const setUserProfile = (profile: ProfileInfoType): SetUserProfileACType =
     }
 }
 
+export const getUserProfileThunkCreator = (userId: number) => {
+    return (dispatch: any) => {
+        usersAPI.getProfile(userId).then(response => {
+            dispatch(setUserProfile(response.data))
+        })
+    }
+}
+
+
 export type AddPostActionType = {
     type: ACTIONS_TYPE.ADD_POST
 }

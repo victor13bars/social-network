@@ -5,17 +5,20 @@ import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import {ProfileInfoType} from "../../redux/profile-reducer";
+import {updateStatusThunkCreator} from "../../redux/action";
 
- export type ProfilePropsType = {
-    profile:null | ProfileInfoType
+export type ProfilePropsType = {
+    profile: null | ProfileInfoType,
+    status: string,
+    updateStatusThunkCreator: (status: string) => void
 
 }
 
-const Profile = (props:ProfilePropsType) => {
+const Profile = (props: ProfilePropsType) => {
     return (
         <div>
-            <ProfileInfo profile={props.profile}/>
-            <MyPostsContainer />
+            <ProfileInfo profile={props.profile} status={props.status} updateStatusThunkCreator={props.updateStatusThunkCreator}/>
+            <MyPostsContainer/>
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import {UserType} from "./users-reducer";
 import {ProfileInfoType} from "./profile-reducer";
-import {usersAPI} from "../api/api";
+import {profileAPI, usersAPI} from "../api/api";
 
 export enum ACTIONS_TYPE {
     TOGGLE_IS_FETCHING = 'TOGGLE/IS_FETCHING',
@@ -12,6 +12,7 @@ export enum ACTIONS_TYPE {
     UNFOLLOW = 'USERS/UNFOLLOW',
     ADD_POST = "PROFILE/ADD-POST",
     SET_USER_PROFILE = "PROFILE/SET-USER-PROFILE",
+    SET_STATUS = "PROFILE/SET-STATUS",
     UPDATE_NEW_POST_TEXT = "PROFILE/UPDATE-NEW-POST-TEXT",
     SEND_MESSAGE = "DIALOGS/SEND-MESSAGE",
     UPDATE_NEW_MESSAGE_BODY = "DIALOGS/UPDATE-NEW-MESSAGE-BODY"
@@ -101,6 +102,7 @@ export const setUsers = (users: Array<UserType>): SetUsersACType => {
     }
 }
 
+
 export type UsersReducersTypes =
     FollowACType
     | UnFollowACType
@@ -149,7 +151,18 @@ export const updateNewPostTextAC = (newText: string): UpdateNewPostTextActionTyp
     }
 }
 
-export type ProfileReducersTypes = UpdateNewPostTextActionType | AddPostActionType | SetUserProfileACType;
+export type SetStatusACType = {
+    type: ACTIONS_TYPE.SET_STATUS,
+    status: string
+}
+export const setStatus = (status: string): SetStatusACType => {
+    return {
+        type: ACTIONS_TYPE.SET_STATUS,
+        status: status
+    }
+}
+
+export type ProfileReducersTypes = UpdateNewPostTextActionType | AddPostActionType | SetUserProfileACType | SetStatusACType;
 
 export type UpdateNewMessageBodyActionType = {
     type: ACTIONS_TYPE.UPDATE_NEW_MESSAGE_BODY
@@ -171,6 +184,29 @@ export const sendMessageAC = (): SendMessageActionType => {
 }
 
 export type DialogsReducersTypes = SendMessageActionType | UpdateNewMessageBodyActionType;
+
+export const getStatusThunkCreator = (userId:number) => {
+    return (dispatch: any) => {
+
+        profileAPI.getStatus(userId)
+        .then(response => {
+            debugger
+            dispatch(setStatus(response.data))
+
+        });
+    }
+}
+
+export const updateStatusThunkCreator = (status:string) => {
+    return (dispatch: any) => {
+        profileAPI.updateStatus(status)
+            .then(response => {
+                if(response.data.resultCode === 0) {
+                    dispatch(setStatus(status))
+                }
+            });
+    }
+}
 
 export const getUsersThunkCreator = (currentPage: number, pageSize: number) => {
     return (dispatch: any) => {

@@ -14,21 +14,22 @@ export type ContactsType = {
 }
 export type PhotosType = {
     small: string,
-    large:string
+    large: string
 }
 export type ProfileInfoType = {
-    aboutMe:string,
-    contacts:ContactsType,
-    lookingForAJob:boolean,
-    lookingForAJobDescription:string,
-    fullName:string,
-    userId:number,
-    photos:PhotosType
+    aboutMe: string,
+    contacts: ContactsType,
+    lookingForAJob: boolean,
+    lookingForAJobDescription: string,
+    fullName: string,
+    userId: number,
+    photos: PhotosType
 }
 export type ProfilePageType = {
     posts: Array<PostType>
     messageForNewPost: string
-    profile:null | ProfileInfoType
+    profile: null | ProfileInfoType
+    status: string
 }
 
 let initialState = {
@@ -37,7 +38,8 @@ let initialState = {
         {id: 2, message: "How are you?", likeCount: 25},
     ],
     messageForNewPost: "IT-KAMASUTRA.COM",
-    profile:null
+    profile: null,
+    status: ""
 }
 
 const profileReducer = (state: ProfilePageType = initialState, action: ProfileReducersTypes) => {
@@ -60,6 +62,12 @@ const profileReducer = (state: ProfilePageType = initialState, action: ProfileRe
             return {
                 ...state,
                 profile: action.profile
+            }
+        }
+        case ACTIONS_TYPE.SET_STATUS: {
+            return {
+                ...state,
+                status: action.status
             }
         }
         default:

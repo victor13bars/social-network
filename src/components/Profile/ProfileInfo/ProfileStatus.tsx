@@ -5,7 +5,7 @@ import classes from './ProfileInfo.module.css';
 class ProfileStatus extends React.Component<any> {
     state = {
         editMode: false,
-        status:this.props.status
+        status: this.props.status
     }
 
     activateEditMode = () => {
@@ -21,9 +21,17 @@ class ProfileStatus extends React.Component<any> {
         this.props.updateStatusThunkCreator(this.state.status)
     }
 
-    onStatusChange = (e:ChangeEvent<HTMLInputElement>) => {
+    onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({status: e.currentTarget.value})
 
+    }
+
+    componentDidUpdate(prevProps: any, prevState: any) {
+        if (prevProps.status !== this.props.status) {
+            this.setState({
+                status: this.props.status
+            })
+        }
     }
 
     render() {
@@ -36,7 +44,8 @@ class ProfileStatus extends React.Component<any> {
                 }
                 {this.state.editMode &&
                 <div>
-                    <input onChange={this.onStatusChange} autoFocus={true} onBlur={this.deactivateEditMode} value={this.state.status}></input>
+                    <input onChange={this.onStatusChange} autoFocus={true} onBlur={this.deactivateEditMode}
+                           value={this.state.status}></input>
                 </div>
                 }
             </div>

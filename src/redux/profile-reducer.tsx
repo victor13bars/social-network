@@ -27,7 +27,6 @@ export type ProfileInfoType = {
 }
 export type ProfilePageType = {
     posts: Array<PostType>
-    messageForNewPost: string
     profile: null | ProfileInfoType
     status: string
 }
@@ -37,7 +36,6 @@ let initialState = {
         {id: 1, message: "Hello", likeCount: 12},
         {id: 2, message: "How are you?", likeCount: 25},
     ],
-    messageForNewPost: "IT-KAMASUTRA.COM",
     profile: null,
     status: ""
 }
@@ -45,19 +43,14 @@ let initialState = {
 const profileReducer = (state: ProfilePageType = initialState, action: ProfileReducersTypes) => {
     switch (action.type) {
         case ACTIONS_TYPE.ADD_POST: {
-            const newPost: PostType = {id: 5, message: state.messageForNewPost, likeCount: 0};
+            const newPost: PostType = {id: 5, message: action.newMyPost, likeCount: 0};
             return {
                 ...state,
                 messageForNewPost: "",
                 posts: [...state.posts, newPost]
             }
         }
-        case ACTIONS_TYPE.UPDATE_NEW_POST_TEXT: {
-            return {
-                ...state,
-                messageForNewPost: action.newText
-            }
-        }
+
         case ACTIONS_TYPE.SET_USER_PROFILE: {
             return {
                 ...state,

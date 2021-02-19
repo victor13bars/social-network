@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {ACTIONS_TYPE, DialogsReducersTypes} from "./action";
 
 export type DialogType = {
@@ -13,13 +12,10 @@ export type MessageType = {
 export type MessagesPagesType = {
     dialogs: Array<DialogType>
     messages: Array<MessageType>
-    newMessageBody: string
 }
 export type DialogsType = {
     dialogs: Array<DialogType>
     messages: Array<MessageType>
-    newMessageBody: string
-    updateNewMessageBody: (body: string) => void
     sendMessage: () => void
 }
 
@@ -39,24 +35,15 @@ let initialState = {
         {id: 4, message: "Alex"},
         {id: 5, message: "Dima"},
         {id: 6, message: "Toxa"}
-    ],
-    newMessageBody: ""
+    ]
 }
 
 const dialogsReducer = (state: MessagesPagesType = initialState, action: DialogsReducersTypes) => {
-
-
     switch (action.type) {
-        case ACTIONS_TYPE.UPDATE_NEW_MESSAGE_BODY:
-            return {
-                ...state,
-                newMessageBody: action.body
-            }
         case ACTIONS_TYPE.SEND_MESSAGE:
-            let body = state.newMessageBody;
+            let body = action.newMessageBody;
             return {
                 ...state,
-                newMessageBody: "",
                 messages: [...state.messages, {id: 6, message: body}]
             }
         default:

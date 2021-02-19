@@ -13,9 +13,7 @@ export enum ACTIONS_TYPE {
     ADD_POST = "PROFILE/ADD-POST",
     SET_USER_PROFILE = "PROFILE/SET-USER-PROFILE",
     SET_STATUS = "PROFILE/SET-STATUS",
-    UPDATE_NEW_POST_TEXT = "PROFILE/UPDATE-NEW-POST-TEXT",
-    SEND_MESSAGE = "DIALOGS/SEND-MESSAGE",
-    UPDATE_NEW_MESSAGE_BODY = "DIALOGS/UPDATE-NEW-MESSAGE-BODY"
+    SEND_MESSAGE = "DIALOGS/SEND-MESSAGE"
 }
 
 
@@ -102,7 +100,6 @@ export const setUsers = (users: Array<UserType>): SetUsersACType => {
     }
 }
 
-
 export type UsersReducersTypes =
     FollowACType
     | UnFollowACType
@@ -131,26 +128,16 @@ export const getUserProfileThunkCreator = (userId: number) => {
     }
 }
 
-
 export type AddPostActionType = {
-    type: ACTIONS_TYPE.ADD_POST
+    type: ACTIONS_TYPE.ADD_POST,
+    newMyPost: string
 }
-export const addPostAC = (): AddPostActionType => {
+export const addPostAC = (newMyPost:string): AddPostActionType => {
     return {
-        type: ACTIONS_TYPE.ADD_POST
+        type: ACTIONS_TYPE.ADD_POST,
+        newMyPost
     }
 }
-
-export type UpdateNewPostTextActionType = {
-    type: ACTIONS_TYPE.UPDATE_NEW_POST_TEXT
-    newText: string
-}
-export const updateNewPostTextAC = (newText: string): UpdateNewPostTextActionType => {
-    return {
-        type: ACTIONS_TYPE.UPDATE_NEW_POST_TEXT, newText: newText
-    }
-}
-
 export type SetStatusACType = {
     type: ACTIONS_TYPE.SET_STATUS,
     status: string
@@ -162,46 +149,39 @@ export const setStatus = (status: string): SetStatusACType => {
     }
 }
 
-export type ProfileReducersTypes = UpdateNewPostTextActionType | AddPostActionType | SetUserProfileACType | SetStatusACType;
-
-export type UpdateNewMessageBodyActionType = {
-    type: ACTIONS_TYPE.UPDATE_NEW_MESSAGE_BODY
-    body: string
-}
-export const updateNewMessageBodyAC = (body: string): UpdateNewMessageBodyActionType => {
-    return {
-        type: ACTIONS_TYPE.UPDATE_NEW_MESSAGE_BODY, body: body
-    }
-}
+export type ProfileReducersTypes = AddPostActionType
+    | SetUserProfileACType
+    | SetStatusACType;
 
 export type SendMessageActionType = {
-    type: ACTIONS_TYPE.SEND_MESSAGE
+    type: ACTIONS_TYPE.SEND_MESSAGE,
+    newMessageBody: string
 }
-export const sendMessageAC = (): SendMessageActionType => {
+export const sendMessageAC = (newMessageBody: string): SendMessageActionType => {
     return {
-        type: ACTIONS_TYPE.SEND_MESSAGE
+        type: ACTIONS_TYPE.SEND_MESSAGE, newMessageBody
     }
 }
 
-export type DialogsReducersTypes = SendMessageActionType | UpdateNewMessageBodyActionType;
+export type DialogsReducersTypes = SendMessageActionType;
 
-export const getStatusThunkCreator = (userId:number) => {
+export const getStatusThunkCreator = (userId: number) => {
     return (dispatch: any) => {
 
         profileAPI.getStatus(userId)
-        .then(response => {
-            debugger
-            dispatch(setStatus(response.data))
+            .then(response => {
+                debugger
+                dispatch(setStatus(response.data))
 
-        });
+            });
     }
 }
 
-export const updateStatusThunkCreator = (status:string) => {
+export const updateStatusThunkCreator = (status: string) => {
     return (dispatch: any) => {
         profileAPI.updateStatus(status)
             .then(response => {
-                if(response.data.resultCode === 0) {
+                if (response.data.resultCode === 0) {
                     dispatch(setStatus(status))
                 }
             });

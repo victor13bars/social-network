@@ -1,7 +1,7 @@
-import React, {ChangeEvent} from "react";
+import React from "react";
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
-import {addPostAC, ProfileReducersTypes, updateNewPostTextAC} from "../../../redux/action";
+import {addPostAC, ProfileReducersTypes} from "../../../redux/action";
 import {AppStateType} from "../../../redux/redux-store";
 import {Dispatch} from "redux";
 
@@ -38,12 +38,8 @@ let mapStateToProps = (state: AppStateType) => {
 }
 let mapDispatchToProps = (dispatch: Dispatch<ProfileReducersTypes>) => {
     return {
-        updateNewPostText: (text: string) => {
-            let action = updateNewPostTextAC(text);
-            dispatch(action);
-        },
-        addPost: () => {
-            dispatch(addPostAC());
+        addPost: (newMyPost: string) => {
+            dispatch(addPostAC(newMyPost));
         }
 
     }

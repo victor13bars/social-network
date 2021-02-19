@@ -23,17 +23,34 @@ export type SetUserDataACType = {
     data: AuthType
 }
 
-export const setAuthUserData = (data: AuthType): SetUserDataACType => {
+export const setAuthUserData = (id:null,email:null,login:null,isFetching:boolean,isAuth:boolean): SetUserDataACType => {
     return {
         type: SET_USER_DATA,
-        data: data
+        data: {id,email,login,isFetching,isAuth}
     }
 }
 
 export const getAuthUserDataThunk = () => (dispatch: any) => {
     authAPI.getAuth().then(response => {
         if (response.data.resultCode === 0) {
-            dispatch(setAuthUserData(response.data.data))
+            let {id,login,email,isFetching,isAuth} = response.data.data
+            dispatch(setAuthUserData(id,login,email,isFetching,true))
+        }
+    });
+}
+
+export const login = (email:string, password:string, rememberMe:boolean) => (dispatch: any) => {
+    authAPI.login(email, password, rememberMe).then(response => {
+        if (response.data.resultCode === 0) {
+            dispatch(getAuthUserDataThunk())
+        }
+    });
+}
+
+export const logout = () => (dispatch: any) => {
+    authAPI.logout().then(response => {
+        if (response.data.resultCode === 0) {
+            dispatch(setAuthUserData(null,null,null,false,false))
         }
     });
 }
@@ -45,8 +62,7 @@ export const authReducer = (state: AuthType = initialState, action: OwnUserDataR
         case SET_USER_DATA:
             return {
                 ...state,
-                ...action.data,
-                isAuth: true
+                ...action.data
             }
 
         default:

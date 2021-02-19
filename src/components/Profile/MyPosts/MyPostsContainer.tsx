@@ -32,8 +32,7 @@ import {Dispatch} from "redux";
 
 let mapStateToProps = (state: AppStateType) => {
     return {
-        posts: state.profilePage.posts,
-        newPostText: state.profilePage.messageForNewPost
+        posts: state.profilePage.posts
     }
 }
 let mapDispatchToProps = (dispatch: Dispatch<ProfileReducersTypes>) => {

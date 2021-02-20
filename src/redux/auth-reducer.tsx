@@ -1,5 +1,6 @@
 import React from 'react';
 import {authAPI} from "../api/api";
+import {stopSubmit} from "redux-form";
 
 const SET_USER_DATA = "AUTH-SET-USER-DATA"
 
@@ -23,26 +24,30 @@ export type SetUserDataACType = {
     data: AuthType
 }
 
-export const setAuthUserData = (id:null,email:null,login:null,isFetching:boolean,isAuth:boolean): SetUserDataACType => {
+export const setAuthUserData = (id: null, email: null, login: null, isFetching: boolean, isAuth: boolean): SetUserDataACType => {
     return {
         type: SET_USER_DATA,
-        data: {id,email,login,isFetching,isAuth}
+        data: {id, email, login, isFetching, isAuth}
     }
 }
 
 export const getAuthUserDataThunk = () => (dispatch: any) => {
     authAPI.getAuth().then(response => {
         if (response.data.resultCode === 0) {
-            let {id,login,email,isFetching,isAuth} = response.data.data
-            dispatch(setAuthUserData(id,login,email,isFetching,true))
+            let {id, login, email, isFetching, isAuth} = response.data.data
+            dispatch(setAuthUserData(id, login, email, isFetching, true))
         }
     });
 }
 
-export const login = (email:string, password:string, rememberMe:boolean) => (dispatch: any) => {
+export const login = (email: string, password: string, rememberMe: boolean) => (dispatch: any) => {
+
     authAPI.login(email, password, rememberMe).then(response => {
         if (response.data.resultCode === 0) {
             dispatch(getAuthUserDataThunk())
+        } else {
+            let message = response.data.messages.leading > 0 ? response.data.messages[0] : 'Some error'
+            dispatch(stopSubmit("login", {_error: message}))
         }
     });
 }
@@ -50,7 +55,7 @@ export const login = (email:string, password:string, rememberMe:boolean) => (dis
 export const logout = () => (dispatch: any) => {
     authAPI.logout().then(response => {
         if (response.data.resultCode === 0) {
-            dispatch(setAuthUserData(null,null,null,false,false))
+            dispatch(setAuthUserData(null, null, null, false, false))
         }
     });
 }

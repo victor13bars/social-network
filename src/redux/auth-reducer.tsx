@@ -32,7 +32,7 @@ export const setAuthUserData = (id: null, email: null, login: null, isFetching: 
 }
 
 export const getAuthUserDataThunk = () => (dispatch: any) => {
-    authAPI.getAuth().then(response => {
+    return authAPI.getAuth().then(response => {
         if (response.data.resultCode === 0) {
             let {id, login, email, isFetching, isAuth} = response.data.data
             dispatch(setAuthUserData(id, login, email, isFetching, true))
@@ -46,7 +46,8 @@ export const login = (email: string, password: string, rememberMe: boolean) => (
         if (response.data.resultCode === 0) {
             dispatch(getAuthUserDataThunk())
         } else {
-            let message = response.data.messages.leading > 0 ? response.data.messages[0] : 'Some error'
+            let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
+            console.log(response.data)
             dispatch(stopSubmit("login", {_error: message}))
         }
     });

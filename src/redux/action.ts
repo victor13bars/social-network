@@ -132,12 +132,13 @@ export type AddPostActionType = {
     type: ACTIONS_TYPE.ADD_POST,
     newMyPost: string
 }
-export const addPostAC = (newMyPost:string): AddPostActionType => {
+export const addPostAC = (newMyPost: string): AddPostActionType => {
     return {
         type: ACTIONS_TYPE.ADD_POST,
         newMyPost
     }
 }
+
 export type SetStatusACType = {
     type: ACTIONS_TYPE.SET_STATUS,
     status: string
@@ -149,7 +150,8 @@ export const setStatus = (status: string): SetStatusACType => {
     }
 }
 
-export type ProfileReducersTypes = AddPostActionType
+export type ProfileReducersTypes =
+    AddPostActionType
     | SetUserProfileACType
     | SetStatusACType;
 

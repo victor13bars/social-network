@@ -37,7 +37,7 @@ let initialState = {
         {id: 2, message: "How are you?", likeCount: 25},
     ],
     profile: null,
-    status: ""
+    status: "123"
 }
 
 const profileReducer = (state: ProfilePageType = initialState, action: ProfileReducersTypes) => {
@@ -46,7 +46,6 @@ const profileReducer = (state: ProfilePageType = initialState, action: ProfileRe
             const newPost: PostType = {id: 5, message: action.newMyPost, likeCount: 0};
             return {
                 ...state,
-                messageForNewPost: "",
                 posts: [...state.posts, newPost]
             }
         }

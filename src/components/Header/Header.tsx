@@ -12,8 +12,7 @@ const Header = (props: HeaderPropsType) => {
         <header className={classes.header}>
             <img src="https://miro.medium.com/max/1200/1*OQOVtYZWdAqGkWmZT4_BFw.jpeg" alt=""/>
             <div className={classes.loginBlock}>
-                {props.auth?.isAuth
-                    ? <div>{props.auth.login} - <button onClick={props.logout}></button></div>
+                {props.auth?.isAuth? <div>{props.auth.login} - <button onClick={props.logout}></button></div>
                     : <NavLink to={'/login'}>Login</NavLink>}
             </div>
         </header>

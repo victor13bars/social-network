@@ -16,9 +16,7 @@ type MapDispatchPropsType = {
 export type AuthPropsType = MapDispatchPropsType & MapStatePropsType
 
 class HeaderContainer extends React.Component<any, AuthPropsType> {
-    componentDidMount() {
-        this.props.getAuthUserDataThunk()
-    }
+
 
     render() {
         return <Header {...this.props} auth={this.props.auth} logout={this.props.logout}/>

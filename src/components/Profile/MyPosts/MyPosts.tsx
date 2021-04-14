@@ -21,7 +21,8 @@ type MyPostsType = {
 }
 
 const maxLength10 = maxLengthCreator(10)
-const MyPosts = (props: MyPostsType) => {
+
+const MyPosts = React.memo((props: MyPostsType) => {
     console.log(props.posts)
     let postsElements = props.posts.map(p => <Post id={p.id} message={p.message} likeCount={p.likeCount}/>)
 
@@ -50,13 +51,14 @@ const MyPosts = (props: MyPostsType) => {
         </div>
 
     )
-}
+})
 
 const AddMyPostsForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field component={Textarea} name="newMyPost" placeholder="Enter your post" validate={[required,maxLength10]}/>
+                <Field component={Textarea} name="newMyPost" placeholder="Enter your post"
+                       validate={[required, maxLength10]}/>
                 {/*<textarea value={props.newPostText} onChange={onPostChange}/>*/}
             </div>
             <div>

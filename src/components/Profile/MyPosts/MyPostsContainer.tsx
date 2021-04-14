@@ -1,9 +1,10 @@
 import React from "react";
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
-import {addPostAC, ProfileReducersTypes} from "../../../redux/action";
+
 import {AppStateType} from "../../../redux/redux-store";
 import {Dispatch} from "redux";
+import {addPostAC, ProfileReducersTypes} from "../../../redux/profile-reducer";
 
 // const MyPostsContainer = () => {
 //     return (

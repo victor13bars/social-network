@@ -1,5 +1,5 @@
 import {UserType} from "./users-reducer";
-import {ProfileInfoType} from "./profile-reducer";
+import {ProfileInfoType, setStatus} from "./profile-reducer";
 import {profileAPI, usersAPI} from "../api/api";
 
 export enum ACTIONS_TYPE {
@@ -10,9 +10,9 @@ export enum ACTIONS_TYPE {
     SET_USERS = 'USERS/SET_USERS',
     FOLLOW = 'USERS/FOLLOW',
     UNFOLLOW = 'USERS/UNFOLLOW',
-    ADD_POST = "PROFILE/ADD-POST",
-    SET_USER_PROFILE = "PROFILE/SET-USER-PROFILE",
-    SET_STATUS = "PROFILE/SET-STATUS",
+    // ADD_POST = "PROFILE/ADD-POST",
+    // SET_USER_PROFILE = "PROFILE/SET-USER-PROFILE",
+    // SET_STATUS = "PROFILE/SET-STATUS",
     SEND_MESSAGE = "DIALOGS/SEND-MESSAGE"
 }
 
@@ -109,51 +109,6 @@ export type UsersReducersTypes =
     | ToggleIsFetchingACType
     | ToggleIsFollowingACType;
 
-export type SetUserProfileACType = {
-    type: ACTIONS_TYPE.SET_USER_PROFILE,
-    profile: ProfileInfoType
-}
-export const setUserProfile = (profile: ProfileInfoType): SetUserProfileACType => {
-    return {
-        type: ACTIONS_TYPE.SET_USER_PROFILE,
-        profile: profile
-    }
-}
-
-export const getUserProfileThunkCreator = (userId: number) => {
-    return (dispatch: any) => {
-        usersAPI.getProfile(userId).then(response => {
-            dispatch(setUserProfile(response.data))
-        })
-    }
-}
-
-export type AddPostActionType = {
-    type: ACTIONS_TYPE.ADD_POST,
-    newMyPost: string
-}
-export const addPostAC = (newMyPost: string): AddPostActionType => {
-    return {
-        type: ACTIONS_TYPE.ADD_POST,
-        newMyPost
-    }
-}
-
-export type SetStatusACType = {
-    type: ACTIONS_TYPE.SET_STATUS,
-    status: string
-}
-export const setStatus = (status: string): SetStatusACType => {
-    return {
-        type: ACTIONS_TYPE.SET_STATUS,
-        status: status
-    }
-}
-
-export type ProfileReducersTypes =
-    AddPostActionType
-    | SetUserProfileACType
-    | SetStatusACType;
 
 export type SendMessageActionType = {
     type: ACTIONS_TYPE.SEND_MESSAGE,

@@ -2,9 +2,9 @@ import React from "react";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {compose, Dispatch} from "redux";
-import {DialogsReducersTypes, sendMessageAC} from "../../redux/action";
 import {AppStateType} from "../../redux/redux-store";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {DialogsReducersTypes, sendMessageAC} from "../../redux/dialogs-reducer";
 
 let mapStateToProps = (state: AppStateType) => {
     return {

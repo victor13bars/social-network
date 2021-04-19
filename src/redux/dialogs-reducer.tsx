@@ -1,5 +1,6 @@
 import React from 'react';
-import {ACTIONS_TYPE, DialogsReducersTypes} from "./action";
+
+const SEND_MESSAGE = "DIALOGS/SEND-MESSAGE";
 
 export type DialogType = {
     id: number
@@ -40,7 +41,7 @@ let initialState = {
 
 const dialogsReducer = (state: MessagesPagesType = initialState, action: DialogsReducersTypes) => {
     switch (action.type) {
-        case ACTIONS_TYPE.SEND_MESSAGE:
+        case SEND_MESSAGE:
             let body = action.newMessageBody;
             return {
                 ...state,
@@ -50,5 +51,15 @@ const dialogsReducer = (state: MessagesPagesType = initialState, action: Dialogs
             return state;
     }
 }
+
+export type SendMessageActionType = {
+    type: "DIALOGS/SEND-MESSAGE",
+    newMessageBody: string
+}
+export const sendMessageAC = (newMessageBody: string): SendMessageActionType => ({
+    type: SEND_MESSAGE, newMessageBody
+})
+
+export type DialogsReducersTypes = SendMessageActionType;
 
 export default dialogsReducer;

@@ -1,15 +1,14 @@
 import React from 'react';
 import {connect} from "react-redux";
+
+import {AppStateType} from "../../redux/redux-store";
 import {
-    followSuccess,
-    followThunkCreator,
-    getUsersThunkCreator,
+    followSuccess, followThunkCreator, getUsersThunkCreator,
     setCurrentPage,
     unfollowSuccess,
-    unfollowThunkCreator
-} from "../../redux/action";
-import {AppStateType} from "../../redux/redux-store";
-import {UserType} from "../../redux/users-reducer";
+    unfollowThunkCreator,
+    UserType
+} from "../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
 import {withAuthRedirect} from '../../hoc/withAuthRedirect';
@@ -44,7 +43,8 @@ type PropsUserType = mapStateToPropsType & mapDispatchToPropsType
 class UsersContainer extends React.Component<any, PropsUserType> {
 
     componentDidMount() {
-        this.props.getUsersThunkCreator(this.props.currentPage, this.props.pageSize)
+        const {currentPage, pageSize} = this.props;
+        this.props.getUsersThunkCreator(currentPage, pageSize)
         // this.props.toggleIsFetching(true)
         // usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data => {
         //     this.props.toggleIsFetching(false)
@@ -54,7 +54,8 @@ class UsersContainer extends React.Component<any, PropsUserType> {
     }
 
     onPageChanged = (pageNumber: number) => {
-        this.props.getUsersThunkCreator(pageNumber, this.props.pageSize)
+        const {getUsersThunkCreator,pageSize} = this.props
+        getUsersThunkCreator(pageNumber, pageSize)
         // this.props.toggleIsFetching(true)
         // this.props.setCurrentPage(pageNumber)
         // usersAPI.getUsers(pageNumber, this.props.pageSize).then(data => {
@@ -90,8 +91,7 @@ class UsersContainer extends React.Component<any, PropsUserType> {
 //         isFetching: state.usersPage.isFetching,
 //         followingInProgress: state.usersPage.followingInProgress
 //     }
-// }
-
+//
 let mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {
         users: getUsers(state),
@@ -125,9 +125,7 @@ let mapStateToProps = (state: AppStateType): mapStateToPropsType => {
 //         }
 //     }
 // }
-
 // let AuthRedirect = withAuthRedirect(UsersContainer)
-
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {
         followSuccess,

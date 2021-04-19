@@ -5,22 +5,17 @@ import {ProfilePropsType} from "../Profile";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 
 
-const ProfileInfo = (props:ProfilePropsType) => {
-    if(!props.profile){
-        return <Preloader />
+const ProfileInfo = ({profile, status, updateStatusThunkCreator}: ProfilePropsType) => {
+    if (!profile) {
+        return <Preloader/>
     }
     return (
         <div>
-            {/*<div>*/}
-            {/*    <img className={classes.img}*/}
-            {/*         src="https://avatars.mds.yandex.net/get-pdb/2797954/0e70c09d-6fa7-40ac-ba85-c36b467e8de5/s1200?webp=false"*/}
-            {/*         alt=""/>*/}
-            {/*</div>*/}
             <div className={classes.descriptionBlock}>
-                <img src={props.profile.photos.large} alt=""/>
-                <div>{props.profile.aboutMe}</div>
-                <div>{props.profile.lookingForAJobDescription}</div>
-                <ProfileStatusWithHooks status={props.status} updateStatusThunkCreator={props.updateStatusThunkCreator}/>
+                <img src={profile.photos.large} alt=""/>
+                <div>{profile.aboutMe}</div>
+                <div>{profile.lookingForAJobDescription}</div>
+                <ProfileStatusWithHooks status={status} updateStatusThunkCreator={updateStatusThunkCreator}/>
             </div>
 
         </div>

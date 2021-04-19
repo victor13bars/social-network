@@ -1,6 +1,6 @@
 import React from 'react';
 import {PostType} from "../components/Profile/MyPosts/MyPosts";
-import {usersAPI} from "../api/api";
+import {profileAPI, usersAPI} from "../api/api";
 
 const ADD_POST = "PROFILE/ADD-POST";
 const DELETE_POST = "PROFILE/DELETE-POST";
@@ -54,7 +54,6 @@ const profileReducer = (state: ProfilePageType = initialState, action: ProfileRe
                 posts: [...state.posts, newPost]
             }
         }
-
         case SET_USER_PROFILE: {
             return {
                 ...state,
@@ -82,52 +81,54 @@ export type SetUserProfileACType = {
     type: "PROFILE/SET-USER-PROFILE",
     profile: ProfileInfoType
 }
-export const setUserProfile = (profile: ProfileInfoType): SetUserProfileACType => {
-    return {
-        type: SET_USER_PROFILE,
-        profile: profile
-    }
-}
-
-export const getUserProfileThunkCreator = (userId: number) => {
-    return (dispatch: any) => {
-        usersAPI.getProfile(userId).then(response => {
-            dispatch(setUserProfile(response.data))
-        })
-    }
-}
+export const setUserProfile = (profile: ProfileInfoType): SetUserProfileACType => ({
+    type: SET_USER_PROFILE,
+    profile: profile
+})
 
 export type AddPostActionType = {
     type: "PROFILE/ADD-POST",
     newMyPost: string
 }
-export const addPostAC = (newMyPost: string): AddPostActionType => {
-    return {
-        type: ADD_POST,
-        newMyPost
-    }
-}
+export const addPostAC = (newMyPost: string): AddPostActionType => ({
+    type: ADD_POST,
+    newMyPost
+})
 
 export type DeletePostActionType = {
     type: "PROFILE/DELETE-POST",
     postId: number
 }
-export const deletePostAC = (postId: number): DeletePostActionType => {
-    return {
-        type: DELETE_POST,
-        postId
-    }
-}
+export const deletePostAC = (postId: number): DeletePostActionType => ({
+    type: DELETE_POST,
+    postId
+})
 
 
 export type SetStatusACType = {
     type: "PROFILE/SET-STATUS",
     status: string
 }
-export const setStatus = (status: string): SetStatusACType => {
-    return {
-        type: SET_STATUS,
-        status: status
+export const setStatus = (status: string): SetStatusACType => ({
+    type: SET_STATUS,
+    status: status
+})
+
+export const getUserProfileThunkCreator = (userId: number) => async (dispatch: any) => {
+    let response = await usersAPI.getProfile(userId);
+    dispatch(setUserProfile(response.data))
+}
+
+export const getStatusThunkCreator = (userId: number) => async (dispatch: any) => {
+    let response = await profileAPI.getStatus(userId);
+    dispatch(setStatus(response.data))
+}
+
+export const updateStatusThunkCreator = (status: string) => async (dispatch: any) => {
+    let response = await profileAPI.updateStatus(status);
+
+    if (response.data.resultCode === 0) {
+        dispatch(setStatus(status))
     }
 }
 

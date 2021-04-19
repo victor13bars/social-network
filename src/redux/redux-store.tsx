@@ -8,8 +8,6 @@ import authReducer from "./auth-reducer";
 import thunkMiddleware from 'redux-thunk';
 import appReducer from "./app-reducer";
 
-
-
 let reducers = combineReducers({
     profilePage: profileReducer,
     dialogsPage: dialogsReducer,
@@ -28,6 +26,5 @@ window.store = store;
 console.log(window.store)
 
 export type AppStateType = ReturnType<typeof reducers>
-
 
 export default store;

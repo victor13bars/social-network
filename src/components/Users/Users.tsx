@@ -12,18 +12,18 @@ type PropsUsType = {
     followSuccess: (id: number) => void,
     unfollowSuccess: (id: number) => void,
     pageSize: number,
-    totalUsersCount: number,
+    totalItemsCount: number,
     currentPage: number,
+    portionSize:number,
     onPageChanged: (pageNumber: number) => void
     unfollowThunkCreator: (userId: number) => void
     followThunkCreator: (userId: number) => void
 }
 
-let Users = ({pageSize, totalUsersCount, currentPage, onPageChanged, ...props}: PropsUsType) => {
+let Users = ({pageSize, totalItemsCount, currentPage,  portionSize, onPageChanged, ...props}: PropsUsType) => {
 
     return <div>
-        <Paginator pageSize={pageSize} totalUsersCount={totalUsersCount} currentPage={currentPage}
-                   onPageChanged={onPageChanged}/>
+        <Paginator pageSize={pageSize} totalItemsCount={totalItemsCount} portionSize={portionSize} currentPage={currentPage} onPageChanged={onPageChanged}/>
         <div>
             {props.users.map(u => <User user={u}
                                         key={u.id}

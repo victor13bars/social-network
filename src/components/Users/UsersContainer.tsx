@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from "react-redux";
-
 import {AppStateType} from "../../redux/redux-store";
 import {
     followSuccess, followThunkCreator, getUsersThunkCreator,
@@ -18,15 +17,16 @@ import {
     getFollowingInProgress,
     getIsFetching,
     getPageSize,
-    getTotalUsersCount,
+    getTotalItemsCount,
     getUsers
 } from "../../redux/users-selectors";
 
 type mapStateToPropsType = {
     users: Array<UserType>,
     pageSize: number,
-    totalUsersCount: number,
+    totalItemsCount: number,
     currentPage: number,
+    portionSize: number,
     isFetching: boolean,
     followingInProgress: Array<number>,
 }
@@ -43,7 +43,7 @@ type PropsUserType = mapStateToPropsType & mapDispatchToPropsType
 class UsersContainer extends React.Component<any, PropsUserType> {
 
     componentDidMount() {
-        const {currentPage, pageSize} = this.props;
+        const {currentPage, pageSize, portionSize} = this.props;
         this.props.getUsersThunkCreator(currentPage, pageSize)
         // this.props.toggleIsFetching(true)
         // usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data => {
@@ -54,7 +54,7 @@ class UsersContainer extends React.Component<any, PropsUserType> {
     }
 
     onPageChanged = (pageNumber: number) => {
-        const {getUsersThunkCreator,pageSize} = this.props
+        const {getUsersThunkCreator, pageSize} = this.props
         getUsersThunkCreator(pageNumber, pageSize)
         // this.props.toggleIsFetching(true)
         // this.props.setCurrentPage(pageNumber)
@@ -67,9 +67,10 @@ class UsersContainer extends React.Component<any, PropsUserType> {
     render() {
         return <>
             {this.props.isFetching ? <Preloader/> : null}
-            <Users totalUsersCount={this.props.totalUsersCount}
+            <Users totalItemsCount={this.props.totalItemsCount}
                    pageSize={this.props.pageSize}
                    currentPage={this.props.currentPage}
+                   portionSize={this.props.portionSize}
                    onPageChanged={this.onPageChanged}
                    users={this.props.users}
                    followSuccess={this.props.followSuccess}
@@ -96,9 +97,10 @@ let mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {
         users: getUsers(state),
         pageSize: getPageSize(state),
-        totalUsersCount: getTotalUsersCount(state),
+        totalItemsCount: getTotalItemsCount(state),
         currentPage: getCurrentPage(state),
         isFetching: getIsFetching(state),
+        portionSize: state.usersPage.portionSize,
         followingInProgress: getFollowingInProgress(state)
     }
 }

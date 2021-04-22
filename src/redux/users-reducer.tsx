@@ -27,7 +27,8 @@ export type UserType = {
 export type UsersType = {
     users: Array<UserType>,
     pageSize: number,
-    totalUsersCount: number,
+    totalItemsCount: number,
+    portionSize:number,
     currentPage: number,
     isFetching: boolean,
     followingInProgress: Array<number>
@@ -39,8 +40,9 @@ let initialState = {
         // {id: 3,photoUrl:"https://wallbox.ru/resize/1024x768/wallpapers/main/201522/d05a059101136c6.jpg", followed: false, fullname: "Mihel.K", location: {city: "Barsuki", country: "Russia"}},
     ],
     pageSize: 5,
-    totalUsersCount: 0,
+    totalItemsCount: 0,
     currentPage: 1,
+    portionSize:10,
     isFetching: true,
     followingInProgress: []
 }
@@ -76,7 +78,7 @@ export const usersReducer = (state: UsersType = initialState, action: UsersReduc
             return {...state, currentPage: action.currentPage}
 
         case SET_TOTAL_COUNT:
-            return {...state, totalUsersCount: action.totalUsersCount}
+            return {...state, totalItemsCount: action.totalItemsCount}
 
         case TOGGLE_IS_FETCHING:
             return {...state, isFetching: action.isFetching}
@@ -118,11 +120,11 @@ export const toggleIsFollowing = (isFetching: boolean, userId: number): ToggleIs
 
 export type SetTotalUsersCountACType = {
     type: 'USERS/SET_TOTAL_COUNT',
-    totalUsersCount: number
+    totalItemsCount: number
 }
-export const setTotalUsersCount = (totalUsersCount: number): SetTotalUsersCountACType => ({
+export const setTotalUsersCount = (totalItemsCount: number): SetTotalUsersCountACType => ({
     type: SET_TOTAL_COUNT,
-    totalUsersCount: totalUsersCount
+    totalItemsCount: totalItemsCount
 })
 
 export type SetCurrentPageACType = {

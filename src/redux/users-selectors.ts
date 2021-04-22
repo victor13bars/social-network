@@ -8,8 +8,8 @@ export const getPageSize = (state:AppStateType)=>{
     return    state.usersPage.pageSize
 }
 
-export const getTotalUsersCount = (state:AppStateType)=>{
-    return    state.usersPage.totalUsersCount
+export const getTotalItemsCount = (state:AppStateType)=>{
+    return    state.usersPage.totalItemsCount
 }
 
 export const getCurrentPage = (state:AppStateType)=>{

@@ -6,6 +6,8 @@ const ADD_POST = "PROFILE/ADD-POST";
 const DELETE_POST = "PROFILE/DELETE-POST";
 const SET_USER_PROFILE = "PROFILE/SET-USER-PROFILE";
 const SET_STATUS = "PROFILE/SET-STATUS";
+const SAVE_PHOTO = "PROFILE/SAVE-PHOTO";
+
 
 export type ContactsType = {
     facebook: string,
@@ -45,7 +47,7 @@ let initialState = {
     status: "123"
 }
 
-const profileReducer = (state: ProfilePageType = initialState, action: ProfileReducersTypes) => {
+const profileReducer = (state: ProfilePageType = initialState, action: ProfileReducersTypes):ProfilePageType  => {
     switch (action.type) {
         case ADD_POST: {
             const newPost: PostType = {id: 5, message: action.newMyPost, likeCount: 0};
@@ -70,6 +72,12 @@ const profileReducer = (state: ProfilePageType = initialState, action: ProfileRe
             return {
                 ...state,
                 posts: state.posts.filter(p => p.id != action.postId)
+            }
+        }
+        case SAVE_PHOTO: {
+            return {
+                ...state,
+                profile: {...state.profile, photos: action.photos} as ProfileInfoType
             }
         }
         default:
@@ -114,6 +122,15 @@ export const setStatus = (status: string): SetStatusACType => ({
     status: status
 })
 
+export type SetPhotoSuccessACType = {
+    type: "PROFILE/SAVE-PHOTO",
+    photos: PhotosType
+}
+export const setPhotoSuccess = (photos: PhotosType): SetPhotoSuccessACType => ({
+    type: SAVE_PHOTO,
+    photos
+})
+
 export const getUserProfileThunkCreator = (userId: number) => async (dispatch: any) => {
     let response = await usersAPI.getProfile(userId);
     dispatch(setUserProfile(response.data))
@@ -132,11 +149,20 @@ export const updateStatusThunkCreator = (status: string) => async (dispatch: any
     }
 }
 
+export const savePhoto = (file: any) => async (dispatch: any) => {
+    let response = await profileAPI.savePhoto(file)
+
+    if (response.data.resultCode === 0) {
+        dispatch(setPhotoSuccess(response.data.data.photos))
+    }
+}
+
 export type ProfileReducersTypes =
     AddPostActionType
     | SetUserProfileACType
     | SetStatusACType
-    | DeletePostActionType;
+    | DeletePostActionType
+    | SetPhotoSuccessACType;
 
 
 export default profileReducer;

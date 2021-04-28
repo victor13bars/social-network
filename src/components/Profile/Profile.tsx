@@ -9,13 +9,15 @@ export type ProfilePropsType = {
     profile: null | ProfileInfoType,
     status: string,
     updateStatusThunkCreator: (status: string) => void
-
+    isOwner: boolean
+    savePhoto: (file: any) => void
 }
 
 const Profile = (props: ProfilePropsType) => {
     return (
         <div>
-            <ProfileInfo profile={props.profile} status={props.status} updateStatusThunkCreator={props.updateStatusThunkCreator}/>
+            <ProfileInfo profile={props.profile} status={props.status}
+                         updateStatusThunkCreator={props.updateStatusThunkCreator} isOwner={props.isOwner} savePhoto={props.savePhoto}/>
             <MyPostsContainer/>
         </div>
     )

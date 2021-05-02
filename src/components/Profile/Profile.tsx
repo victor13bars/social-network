@@ -4,6 +4,7 @@ import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import {ProfileInfoType} from "../../redux/profile-reducer";
+import {ProfileDataFormType} from "./ProfileInfo/ProfileDataForm";
 
 export type ProfilePropsType = {
     profile: null | ProfileInfoType,
@@ -11,13 +12,15 @@ export type ProfilePropsType = {
     updateStatusThunkCreator: (status: string) => void
     isOwner: boolean
     savePhoto: (file: any) => void
+    saveProfile: (formData: ProfileDataFormType) => Promise<any>
 }
 
 const Profile = (props: ProfilePropsType) => {
     return (
         <div>
             <ProfileInfo profile={props.profile} status={props.status}
-                         updateStatusThunkCreator={props.updateStatusThunkCreator} isOwner={props.isOwner} savePhoto={props.savePhoto}/>
+                         updateStatusThunkCreator={props.updateStatusThunkCreator} isOwner={props.isOwner}
+                         savePhoto={props.savePhoto} saveProfile={props.saveProfile}/>
             <MyPostsContainer/>
         </div>
     )

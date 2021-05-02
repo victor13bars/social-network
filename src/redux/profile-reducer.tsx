@@ -1,6 +1,7 @@
 import React from 'react';
 import {PostType} from "../components/Profile/MyPosts/MyPosts";
 import {profileAPI, usersAPI} from "../api/api";
+import {stopSubmit} from "redux-form";
 
 const ADD_POST = "PROFILE/ADD-POST";
 const DELETE_POST = "PROFILE/DELETE-POST";
@@ -154,6 +155,20 @@ export const savePhoto = (file: any) => async (dispatch: any) => {
 
     if (response.data.resultCode === 0) {
         dispatch(setPhotoSuccess(response.data.data.photos))
+    }
+}
+
+export const saveProfile = (profile: any) => async (dispatch: any,getState:any) => {
+    const userId = getState().auth.id
+    let response = await profileAPI.saveProfile(profile)
+
+    if (response.data.resultCode === 0) {
+        dispatch(getUserProfileThunkCreator(userId))
+    }else {
+        // debugger
+        // let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
+        dispatch(stopSubmit("edit-profile", {_error: response.data.messages[0]}))
+        return Promise.reject(response.data.messages[0])
     }
 }
 

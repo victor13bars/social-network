@@ -6,12 +6,13 @@ import {connect} from "react-redux";
 import {
     getStatusThunkCreator,
     getUserProfileThunkCreator,
-    ProfileInfoType, savePhoto,
+    ProfileInfoType, savePhoto, saveProfile,
     updateStatusThunkCreator
 } from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter, Redirect} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
+import {ProfileDataFormType} from "./ProfileInfo/ProfileDataForm";
 
 type MapStatePropsForRedirectType = {
     isAuth: boolean
@@ -28,7 +29,7 @@ type MapDispatchPropsType = {
     getStatusThunkCreator: (userId: number) => void
     updateStatusThunkCreator: (status: string) => void
     savePhoto: (file: any) => void
-
+    saveProfile: (formData: ProfileDataFormType) => void
 }
 type PathParamsTYpe = {
     userId: string
@@ -54,7 +55,6 @@ class ProfileContainer extends React.Component<any, PropsType> {
     }
 
     componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<PropsType>, snapshot?: any) {
-        debugger
         if (this.props.match.params.userId != prevProps.match.params.userId) {
             this.refreshProfile();
         }
@@ -68,7 +68,9 @@ class ProfileContainer extends React.Component<any, PropsType> {
                          profile={this.props.profile}
                          status={this.props.status}
                          updateStatusThunkCreator={this.props.updateStatusThunkCreator}
-                         savePhoto={this.props.savePhoto}/>
+                         savePhoto={this.props.savePhoto}
+                         saveProfile={this.props.saveProfile}
+                />
             </div>
         )
     }
@@ -87,7 +89,8 @@ export default compose<React.ComponentType>(
         getUserProfileThunkCreator,
         getStatusThunkCreator,
         updateStatusThunkCreator,
-        savePhoto
+        savePhoto,
+        saveProfile
     }),
     withRouter,
     withAuthRedirect

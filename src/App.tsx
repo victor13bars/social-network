@@ -1,6 +1,6 @@
 import React, {Suspense} from 'react';
 import './App.css';
-import {BrowserRouter, HashRouter, Route, withRouter} from 'react-router-dom';
+import {BrowserRouter, HashRouter, Route, withRouter, Switch, Redirect} from 'react-router-dom';
 import Navbar from "./components/Navbar/Navbar";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
@@ -24,16 +24,20 @@ let mapStateToProps = (state: AppStateType): InitializedAuthType => ({
 
 type MapDispatchPropsType = {
     getAuthUserDataThunk: () => void
-
 }
-// type AppType = {
-//     store: Store
-//     dispatch: (action: AddPostActionType | UpdateNewPostTextActionType | UpdateNewMessageBodyActionType | SendMessageActionType) => void
-// }
 
 class App extends React.Component<any, MapDispatchPropsType> {
+    catchAllUnhandledErrors = (promiseRejectionEvent:any) => {
+        alert("Some error occured")
+    }
+
     componentDidMount() {
         this.props.initializeAppThunk()
+        window.addEventListener("unhandledrejection", this.catchAllUnhandledErrors);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("unhandledrejection", this.catchAllUnhandledErrors);
     }
 
     render() {
@@ -45,17 +49,21 @@ class App extends React.Component<any, MapDispatchPropsType> {
                 <HeaderContainer/>
                 <Navbar/>
                 <div className='app-wrapper-content'>
-                    <Route path='/dialogs' render={() => {
-                        return <Suspense fallback={<div>Загрузка...</div>}>
-                            <DialogsContainer/>
-                        </Suspense>
-                    }}/>
-                    <Route path='/profile/:userId?' render={withSuspense(ProfileContainer)}/>
-                    <Route path='/users' render={() => <UsersContainer/>}/>
-                    <Route path='/news' component={News}/>
-                    <Route path='/music' component={Music}/>
-                    <Route path='/settings' component={Settings}/>
-                    <Route path='/login' render={() => <Login/>}/>
+                    <Switch>
+                        <Redirect exact from="/" to="/profile"/>
+                        <Route path='/dialogs' render={() => {
+                            return <Suspense fallback={<div>Загрузка...</div>}>
+                                <DialogsContainer/>
+                            </Suspense>
+                        }}/>
+                        <Route path='/profile/:userId?' render={withSuspense(ProfileContainer)}/>
+                        <Route path='/users' render={() => <UsersContainer/>}/>
+                        <Route path='/news' component={News}/>
+                        <Route path='/music' component={Music}/>
+                        <Route path='/settings' component={Settings}/>
+                        <Route path='/login' render={() => <Login/>}/>
+                        <Route path='*' render={() => <div>404 NOT FOUND</div>}/>
+                    </Switch>
                 </div>
 
             </div>

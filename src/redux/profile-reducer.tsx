@@ -1,7 +1,7 @@
 import React from 'react';
-import {PostType} from "../components/Profile/MyPosts/MyPosts";
 import {profileAPI, usersAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
+import {PhotosType, PostType, ProfileInfoType} from "../types/types";
 
 const ADD_POST = "PROFILE/ADD-POST";
 const DELETE_POST = "PROFILE/DELETE-POST";
@@ -9,46 +9,18 @@ const SET_USER_PROFILE = "PROFILE/SET-USER-PROFILE";
 const SET_STATUS = "PROFILE/SET-STATUS";
 const SAVE_PHOTO = "PROFILE/SAVE-PHOTO";
 
-
-export type ContactsType = {
-    facebook: string,
-    website: string,
-    vk: string,
-    twitter: string,
-    instagram: string,
-    youtube: string,
-    github: string,
-    mainLink: string
-}
-export type PhotosType = {
-    small: string,
-    large: string
-}
-export type ProfileInfoType = {
-    aboutMe: string,
-    contacts: ContactsType,
-    lookingForAJob: boolean,
-    lookingForAJobDescription: string,
-    fullName: string,
-    userId: number,
-    photos: PhotosType
-}
-export type ProfilePageType = {
-    posts: Array<PostType>
-    profile: null | ProfileInfoType
-    status: string
-}
+export type ProfilePInitialStateType = typeof initialState;
 
 let initialState = {
     posts: [
         {id: 1, message: "Hello", likeCount: 12},
         {id: 2, message: "How are you?", likeCount: 25},
-    ],
-    profile: null,
+    ] as Array<PostType>,
+    profile: null as ProfileInfoType | null,
     status: "123"
 }
 
-const profileReducer = (state: ProfilePageType = initialState, action: ProfileReducersTypes):ProfilePageType  => {
+const profileReducer = (state = initialState, action: ProfileReducersTypes): ProfilePInitialStateType => {
     switch (action.type) {
         case ADD_POST: {
             const newPost: PostType = {id: 5, message: action.newMyPost, likeCount: 0};
@@ -87,7 +59,7 @@ const profileReducer = (state: ProfilePageType = initialState, action: ProfileRe
 }
 
 export type SetUserProfileACType = {
-    type: "PROFILE/SET-USER-PROFILE",
+    type: typeof SET_USER_PROFILE,
     profile: ProfileInfoType
 }
 export const setUserProfile = (profile: ProfileInfoType): SetUserProfileACType => ({
@@ -96,7 +68,7 @@ export const setUserProfile = (profile: ProfileInfoType): SetUserProfileACType =
 })
 
 export type AddPostActionType = {
-    type: "PROFILE/ADD-POST",
+    type: typeof ADD_POST,
     newMyPost: string
 }
 export const addPostAC = (newMyPost: string): AddPostActionType => ({
@@ -105,7 +77,7 @@ export const addPostAC = (newMyPost: string): AddPostActionType => ({
 })
 
 export type DeletePostActionType = {
-    type: "PROFILE/DELETE-POST",
+    type: typeof DELETE_POST,
     postId: number
 }
 export const deletePostAC = (postId: number): DeletePostActionType => ({
@@ -113,9 +85,8 @@ export const deletePostAC = (postId: number): DeletePostActionType => ({
     postId
 })
 
-
 export type SetStatusACType = {
-    type: "PROFILE/SET-STATUS",
+    type: typeof SET_STATUS,
     status: string
 }
 export const setStatus = (status: string): SetStatusACType => ({
@@ -124,7 +95,7 @@ export const setStatus = (status: string): SetStatusACType => ({
 })
 
 export type SetPhotoSuccessACType = {
-    type: "PROFILE/SAVE-PHOTO",
+    type: typeof SAVE_PHOTO,
     photos: PhotosType
 }
 export const setPhotoSuccess = (photos: PhotosType): SetPhotoSuccessACType => ({
@@ -158,13 +129,13 @@ export const savePhoto = (file: any) => async (dispatch: any) => {
     }
 }
 
-export const saveProfile = (profile: any) => async (dispatch: any,getState:any) => {
+export const saveProfile = (profile: ProfileInfoType) => async (dispatch: any, getState: any) => {
     const userId = getState().auth.id
     let response = await profileAPI.saveProfile(profile)
 
     if (response.data.resultCode === 0) {
         dispatch(getUserProfileThunkCreator(userId))
-    }else {
+    } else {
         // debugger
         // let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
         dispatch(stopSubmit("edit-profile", {_error: response.data.messages[0]}))

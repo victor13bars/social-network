@@ -1,10 +1,10 @@
 import React from "react";
 import classes from './Header.module.css';
 import {NavLink} from "react-router-dom";
-import {AuthType} from "../../redux/auth-reducer";
+import {AuthInitialStateType} from "../../redux/auth-reducer";
 
 export type HeaderPropsType = {
-    auth: null | AuthType
+    auth: null | AuthInitialStateType
     logout: () => void
 }
 const Header = (props: HeaderPropsType) => {

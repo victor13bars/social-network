@@ -1,6 +1,7 @@
 import React from 'react';
 import {usersAPI} from "../api/api";
 import {updateObjectInArray} from '../utils/object-helpers';
+import {PhotosType, UserType} from "../types/types";
 
 const TOGGLE_IS_FETCHING = 'USERS/TOGGLE/IS_FETCHING';
 const TOGGLE_IS_FOLLOWING_PROGRESS = 'USERS/TOGGLE/IS_FOLLOWING_PROGRESS';
@@ -10,44 +11,19 @@ const SET_USERS = 'USERS/SET_USERS';
 const FOLLOW = 'USERS/FOLLOW';
 const UNFOLLOW = 'USERS/UNFOLLOW';
 
-export type UserType = {
-    id: number,
-    photos: {
-        small: string,
-        large: string
-    },
-    followed: boolean,
-    name: string,
-    location: {
-        city: string,
-        country: string
-    },
-    status: string
-}
-export type UsersType = {
-    users: Array<UserType>,
-    pageSize: number,
-    totalItemsCount: number,
-    portionSize:number,
-    currentPage: number,
-    isFetching: boolean,
-    followingInProgress: Array<number>
-}
+export type UserInitialStateType = typeof  initialState;
+
 let initialState = {
-    users: [
-        // {id: 1,photoUrl:"https://www.nastol.com.ua/download.php?img=201212/1440x900/nastol.com.ua-37486.jpg",followed: false, fullname: "I'am a boss", location: {city: "Zhodino", country: "Belarus"}},
-        // {id: 2,photoUrl:"https://f3.upet.com/P_LOy49X6Hub_u.jpg", followed: true, fullname: "Viktor.S", location: {city: "Los Angeles", country: "USA"}},
-        // {id: 3,photoUrl:"https://wallbox.ru/resize/1024x768/wallpapers/main/201522/d05a059101136c6.jpg", followed: false, fullname: "Mihel.K", location: {city: "Barsuki", country: "Russia"}},
-    ],
+    users: [] as Array<UserType>,
     pageSize: 5,
     totalItemsCount: 0,
     currentPage: 1,
     portionSize:10,
     isFetching: true,
-    followingInProgress: []
+    followingInProgress: [] as Array<number>//Array of user id
 }
 
-export const usersReducer = (state: UsersType = initialState, action: UsersReducersTypes) => {
+export const usersReducer = (state= initialState, action: UsersReducersTypes):UserInitialStateType => {
     switch (action.type) {
         case FOLLOW:
             return {
@@ -97,21 +73,19 @@ export const usersReducer = (state: UsersType = initialState, action: UsersReduc
 }
 
 export type ToggleIsFetchingACType = {
-    type: 'USERS/TOGGLE/IS_FETCHING',
+    type: typeof TOGGLE_IS_FETCHING,
     isFetching: boolean
 }
-
 export const toggleIsFetching = (isFetching: boolean): ToggleIsFetchingACType => ({
     type: TOGGLE_IS_FETCHING,
     isFetching: isFetching
 })
 
 export type ToggleIsFollowingACType = {
-    type: 'USERS/TOGGLE/IS_FOLLOWING_PROGRESS',
+    type: typeof TOGGLE_IS_FOLLOWING_PROGRESS,
     isFetching: boolean,
     userId: number
 }
-
 export const toggleIsFollowing = (isFetching: boolean, userId: number): ToggleIsFollowingACType => ({
     type: TOGGLE_IS_FOLLOWING_PROGRESS,
     isFetching: isFetching,
@@ -119,7 +93,7 @@ export const toggleIsFollowing = (isFetching: boolean, userId: number): ToggleIs
 })
 
 export type SetTotalUsersCountACType = {
-    type: 'USERS/SET_TOTAL_COUNT',
+    type: typeof SET_TOTAL_COUNT,
     totalItemsCount: number
 }
 export const setTotalUsersCount = (totalItemsCount: number): SetTotalUsersCountACType => ({
@@ -128,7 +102,7 @@ export const setTotalUsersCount = (totalItemsCount: number): SetTotalUsersCountA
 })
 
 export type SetCurrentPageACType = {
-    type: 'USERS/SET_CURRENT_PAGE',
+    type: typeof SET_CURRENT_PAGE,
     currentPage: number
 }
 export const setCurrentPage = (currentPage: number): SetCurrentPageACType => ({
@@ -137,7 +111,7 @@ export const setCurrentPage = (currentPage: number): SetCurrentPageACType => ({
 })
 
 export type FollowACType = {
-    type: 'USERS/FOLLOW',
+    type: typeof FOLLOW,
     id: number
 }
 export const followSuccess = (userId: number): FollowACType => ({
@@ -146,7 +120,7 @@ export const followSuccess = (userId: number): FollowACType => ({
 })
 
 export type UnFollowACType = {
-    type: 'USERS/UNFOLLOW',
+    type: typeof UNFOLLOW,
     id: number
 }
 export const unfollowSuccess = (userId: number): UnFollowACType => ({
@@ -155,7 +129,7 @@ export const unfollowSuccess = (userId: number): UnFollowACType => ({
 })
 
 export type SetUsersACType = {
-    type: 'USERS/SET_USERS',
+    type: typeof SET_USERS,
     users: Array<UserType>
 }
 export const setUsers = (users: Array<UserType>): SetUsersACType => ({

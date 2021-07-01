@@ -1,12 +1,12 @@
 import React from "react";
 import Header from "./Header";
 import {connect} from "react-redux";
-import {AuthType, getAuthUserDataThunk, logout} from "../../redux/auth-reducer";
+import {AuthInitialStateType, getAuthUserDataThunk, logout} from "../../redux/auth-reducer";
 import {AppStateType} from "../../redux/redux-store";
 
 
 export type MapStatePropsType = {
-    auth: null | AuthType
+    auth: null | AuthInitialStateType
 }
 type MapDispatchPropsType = {
     getAuthUserDataThunk: () => void

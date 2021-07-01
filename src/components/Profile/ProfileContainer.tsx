@@ -5,14 +5,14 @@ import {connect} from "react-redux";
 
 import {
     getStatusThunkCreator,
-    getUserProfileThunkCreator,
-    ProfileInfoType, savePhoto, saveProfile,
+    getUserProfileThunkCreator, savePhoto, saveProfile,
     updateStatusThunkCreator
 } from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter, Redirect} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 import {ProfileDataFormType} from "./ProfileInfo/ProfileDataForm";
+import {ProfileInfoType} from "../../types/types";
 
 type MapStatePropsForRedirectType = {
     isAuth: boolean
@@ -21,7 +21,7 @@ type MapStatePropsForRedirectType = {
 type MapStatePropsType = {
     profile:  ProfileInfoType | null
     status: string
-    authorizedUserId: null
+    authorizedUserId: null |number
     isAuth: boolean
 }
 type MapDispatchPropsType = {

@@ -4,9 +4,10 @@ import Preloader from "../../common/Preloader/Preloader";
 import {ProfilePropsType} from "../Profile";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import userPhoto from "../../../assets/images/user.png";
-import {ContactsType, ProfileInfoType} from "../../../redux/profile-reducer";
+
 import ProfileDataForm, {ProfileDataFormType} from "./ProfileDataForm";
 import ProfileDataReduxForm from "./ProfileDataForm";
+import {ProfileInfoType} from "../../../types/types";
 
 
 const ProfileInfo = ({profile, status, updateStatusThunkCreator, isOwner, savePhoto, saveProfile}: ProfilePropsType) => {

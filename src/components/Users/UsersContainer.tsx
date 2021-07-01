@@ -5,8 +5,7 @@ import {
     followSuccess, followThunkCreator, getUsersThunkCreator,
     setCurrentPage,
     unfollowSuccess,
-    unfollowThunkCreator,
-    UserType
+    unfollowThunkCreator
 } from "../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
@@ -20,6 +19,7 @@ import {
     getTotalItemsCount,
     getUsers
 } from "../../redux/users-selectors";
+import {UserType} from "../../types/types";
 
 type mapStateToPropsType = {
     users: Array<UserType>,

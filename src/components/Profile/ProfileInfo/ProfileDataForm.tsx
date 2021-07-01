@@ -1,4 +1,4 @@
-import {ContactsType, ProfileInfoType} from "../../../redux/profile-reducer";
+
 import Preloader from "../../common/Preloader/Preloader";
 import React from "react";
 import {createField, Input, Textarea} from "../../common/FormsControls/FormsControls";
@@ -6,6 +6,7 @@ import {required} from "../../../utils/validators/validators";
 import {InjectedFormProps, reduxForm} from "redux-form";
 import s from './ProfileInfo.module.css';
 import styles from "../../common/FormsControls/FormsControls.module.css";
+import {ContactsType, ProfileInfoType} from "../../../types/types";
 
 export type ProfileType = {
     profile: null | ProfileInfoType

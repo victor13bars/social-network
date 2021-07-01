@@ -2,6 +2,8 @@ import React from 'react';
 
 const SEND_MESSAGE = "DIALOGS/SEND-MESSAGE";
 
+export  type DialogsInitialStateType = typeof initialState;
+
 export type DialogType = {
     id: number
     name: string
@@ -9,15 +11,6 @@ export type DialogType = {
 export type MessageType = {
     id: number
     message: string
-}
-export type MessagesPagesType = {
-    dialogs: Array<DialogType>
-    messages: Array<MessageType>
-}
-export type DialogsType = {
-    dialogs: Array<DialogType>
-    messages: Array<MessageType>
-    sendMessage: () => void
 }
 
 let initialState = {
@@ -28,7 +21,7 @@ let initialState = {
         {id: 4, name: "Alex"},
         {id: 5, name: "Dima"},
         {id: 6, name: "Toxa"}
-    ],
+    ] as Array<DialogType>,
     messages: [
         {id: 1, message: "Hello"},
         {id: 2, message: "How are you?"},
@@ -36,10 +29,10 @@ let initialState = {
         {id: 4, message: "Alex"},
         {id: 5, message: "Dima"},
         {id: 6, message: "Toxa"}
-    ]
+    ] as Array<MessageType>
 }
 
-const dialogsReducer = (state: MessagesPagesType = initialState, action: DialogsReducersTypes) => {
+const dialogsReducer = (state = initialState, action: DialogsReducersTypes):DialogsInitialStateType => {
     switch (action.type) {
         case SEND_MESSAGE:
             let body = action.newMessageBody;
@@ -53,7 +46,7 @@ const dialogsReducer = (state: MessagesPagesType = initialState, action: Dialogs
 }
 
 export type SendMessageActionType = {
-    type: "DIALOGS/SEND-MESSAGE",
+    type: typeof SEND_MESSAGE,
     newMessageBody: string
 }
 export const sendMessageAC = (newMessageBody: string): SendMessageActionType => ({

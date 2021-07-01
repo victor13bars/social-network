@@ -1,43 +1,62 @@
 import React from 'react';
 import {authAPI, securityAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
-import dialogsReducer from "./dialogs-reducer";
 
 const SET_USER_DATA = "AUTH/SET_USER_DATA"
 const SET_CAPTCHA_URL = "AUTH/SET_CAPTCHA_URL"
-export type CaptchaType = {
-    captchaUrl: string
-}
-export type AuthType = {
-    id: null,
-    email: null,
-    login: null,
-    isFetching: boolean,
+
+export type AuthInitialStateType = {
+    id: number | null
+    email: string | null
+    login: string | null
+    isFetching: boolean
     isAuth: boolean
+    captchaUrl: string | null
 }
-export type InitStateType = AuthType & CaptchaType
-let initialState = {
+
+let initialState: AuthInitialStateType = {
     id: null,
     email: null,
     login: null,
     isFetching: false,
     isAuth: false,
-    captchaUrl: ""
+    captchaUrl: null
 }
 
+
+export const authReducer = (state = initialState, action: OwnUserDataReducersTypes): AuthInitialStateType => {
+    switch (action.type) {
+        case SET_USER_DATA:
+        case SET_CAPTCHA_URL:
+            return {
+                ...state,
+                ...action.data
+            }
+        default:
+            return state;
+    }
+}
+
+export type SetUserDataType = {
+    id: number | null
+    email: string | null
+    login: string | null
+    isFetching: boolean
+    isAuth: boolean
+}
 export type SetUserDataACType = {
-    type: "AUTH/SET_USER_DATA",
-    data: AuthType
+    type: typeof SET_USER_DATA,
+    data: SetUserDataType
 }
 
-export const setAuthUserData = (id: null, email: null, login: null, isFetching: boolean, isAuth: boolean): SetUserDataACType => ({
+export const setAuthUserData = (id: number | null, email: string | null, login: string | null, isFetching: boolean, isAuth: boolean): SetUserDataACType => ({
     type: SET_USER_DATA,
     data: {id, email, login, isFetching, isAuth}
 })
 
 export type SetCaptchaUrlACType = {
-    type: "AUTH/SET_CAPTCHA_URL",
-    data: CaptchaType
+    type: typeof SET_CAPTCHA_URL,
+    data: { captchaUrl: string }
 }
 
 export const setAuthCaptchaUrl = (captchaUrl: string): SetCaptchaUrlACType => ({
@@ -76,13 +95,6 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
     }
 }
 
-export const getCaptchaUrl = () => async (dispatch: any) => {
-    let response = await securityAPI.getCaptchaUrl();
-    const captchaUrl = response.data.url
-    debugger
-    dispatch(setAuthCaptchaUrl(captchaUrl))
-}
-
 export const logout = () => async (dispatch: any) => {
 
     let response = await authAPI.logout();
@@ -91,19 +103,14 @@ export const logout = () => async (dispatch: any) => {
     }
 }
 
+export const getCaptchaUrl = () => async (dispatch: any) => {
+    let response = await securityAPI.getCaptchaUrl();
+    const captchaUrl = response.data.url
+
+    dispatch(setAuthCaptchaUrl(captchaUrl))
+}
+
 export type OwnUserDataReducersTypes = SetUserDataACType | SetCaptchaUrlACType
 
-export const authReducer = (state: InitStateType = initialState, action: OwnUserDataReducersTypes) => {
-    switch (action.type) {
-        case SET_USER_DATA:
-        case SET_CAPTCHA_URL:
-            return {
-                ...state,
-                ...action.data
-            }
-        default:
-            return state;
-    }
-}
 
 export default authReducer;

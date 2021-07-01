@@ -3,8 +3,9 @@ import classes from './Profile.module.css';
 import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
-import {ProfileInfoType} from "../../redux/profile-reducer";
+
 import {ProfileDataFormType} from "./ProfileInfo/ProfileDataForm";
+import {ProfileInfoType} from "../../types/types";
 
 export type ProfilePropsType = {
     profile: null | ProfileInfoType,

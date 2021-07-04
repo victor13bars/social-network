@@ -1,14 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {
-    followSuccess,
-    followTC,
-    getUsersTC,
-    setCurrentPage,
-    unfollowSuccess,
-    unfollowTC
-} from "../../redux/users-reducer";
+import {followTC, getUsersTC, unfollowTC} from "../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
 import {withAuthRedirect} from '../../hoc/withAuthRedirect';

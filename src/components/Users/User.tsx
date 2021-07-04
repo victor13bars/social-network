@@ -1,18 +1,17 @@
 import React from 'react';
 import styles from "./users.module.css";
 import userPhoto from "../../assets/images/user.png";
-
 import {NavLink} from "react-router-dom";
 import {UserType} from "../../types/types";
 
 type PropsUserType = {
     followingInProgress: Array<number>
     user: UserType,
-    unfollowThunkCreator: (userId: number) => void
-    followThunkCreator: (userId: number) => void
+    unfollowTC: (userId: number) => void
+    followTC: (userId: number) => void
 }
 
-let User = ({user, followingInProgress, unfollowThunkCreator, followThunkCreator}: PropsUserType) => {
+let User:React.FC<PropsUserType> = ({user, followingInProgress, unfollowTC, followTC}) => {
 
     return (
         <div>
@@ -26,12 +25,12 @@ let User = ({user, followingInProgress, unfollowThunkCreator, followThunkCreator
                     {user.followed
                         ? <button disabled={followingInProgress.some(id => id === user.id)} onClick={() => {
 
-                            unfollowThunkCreator(user.id)
+                            unfollowTC(user.id)
 
                         }}>Unfollow</button>
                         : <button disabled={followingInProgress.some(id => id === user.id)} onClick={() => {
 
-                            followThunkCreator(user.id)
+                            followTC(user.id)
 
                         }}>Follow</button>}
                 </div>

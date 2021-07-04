@@ -137,7 +137,7 @@ export const setUsers = (users: Array<UserType>): SetUsersACType => ({
     users: users
 })
 
-export const getUsersThunkCreator = (page: number, pageSize: number) => async (dispatch: any) => {
+export const getUsersTC = (page: number, pageSize: number) => async (dispatch: any) => {
     dispatch(toggleIsFetching(true))
     dispatch(setCurrentPage(page))
 
@@ -159,7 +159,7 @@ export const getUsersThunkCreator = (page: number, pageSize: number) => async (d
 // }
 
 
-export const followThunkCreator = (userId: number) => async (dispatch: any) => {
+export const followTC = (userId: number) => async (dispatch: any) => {
     // let apiMethod = usersAPI.follow.bind(usersAPI);
     // let actionCreator = followSuccess;
     // followUnfollowFlow(dispatch, userId, apiMethod, actionCreator)
@@ -174,7 +174,7 @@ export const followThunkCreator = (userId: number) => async (dispatch: any) => {
 }
 
 
-export const unfollowThunkCreator = (userId: number) => async (dispatch: any) => {
+export const unfollowTC = (userId: number) => async (dispatch: any) => {
     // let apiMethod = usersAPI.unfollow.bind(usersAPI);
     // let actionCreator = unfollowSuccess;
     // followUnfollowFlow(dispatch, userId, apiMethod, actionCreator)

@@ -18,15 +18,23 @@ import {withSuspense} from "./hoc/withSuspense";
 // import ProfileContainer from "./components/Profile/ProfileContainer";
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"));
 const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"));
+
+type MapStatePropsType = {
+    initialized: boolean,
+    // pageTitle:string
+}
+
 let mapStateToProps = (state: AppStateType): InitializedAuthType => ({
     initialized: state.app.initialized
 })
 
 type MapDispatchPropsType = {
     getAuthUserDataThunk: () => void
+    initializeAppThunk: () => void
 }
+type AppPropsType = MapDispatchPropsType & MapStatePropsType;
 
-class App extends React.Component<any, MapDispatchPropsType> {
+class App extends React.Component<AppPropsType> {
     catchAllUnhandledErrors = (promiseRejectionEvent:any) => {
         alert("Some error occured")
     }
@@ -57,7 +65,7 @@ class App extends React.Component<any, MapDispatchPropsType> {
                             </Suspense>
                         }}/>
                         <Route path='/profile/:userId?' render={withSuspense(ProfileContainer)}/>
-                        <Route path='/users' render={() => <UsersContainer/>}/>
+                        <Route path='/users' render={() => <UsersContainer />}/>
                         <Route path='/news' component={News}/>
                         <Route path='/music' component={Music}/>
                         <Route path='/settings' component={Settings}/>

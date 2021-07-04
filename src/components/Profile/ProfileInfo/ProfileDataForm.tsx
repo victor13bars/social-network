@@ -31,7 +31,7 @@ const ProfileDataForm: React.FC<InjectedFormProps<ProfileDataFormType, ProfileTy
                 <b>Full Name</b>: {createField("Full name", 'fullName', Input, [required])}
             </div>
             <div>
-                <b>Looking for a job</b>: {createField(null, 'lookingForAJob', Input, [required], {type: "checkbox"})}
+                <b>Looking for a job</b>: {createField(undefined, 'lookingForAJob', Input, [required], {type: "checkbox"})}
             </div>
             <div>
                 <b>My professional skills</b>:

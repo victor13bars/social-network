@@ -1,4 +1,5 @@
-import profileReducer, {addPostAC, deletePostAC} from "./profile-reducer";
+import profileReducer, {actions} from "./profile-reducer";
+
 
 let state = {
     posts: [
@@ -11,7 +12,7 @@ let state = {
 
 test('length of posts should be incremented', () => {
 
-    let action = addPostAC("ТЫ МОЛОДЕЦ")
+    let action = actions.addPostAC("ТЫ МОЛОДЕЦ")
     let newState = profileReducer(state, action)
 
     expect(newState.posts.length).toBe(3)
@@ -20,7 +21,7 @@ test('length of posts should be incremented', () => {
 
 test('message of new post should be correct', () => {
 
-    let action = addPostAC("ТЫ МОЛОДЕЦ")
+    let action = actions.addPostAC("ТЫ МОЛОДЕЦ")
     let newState = profileReducer(state, action)
 
     expect(newState.posts[2].message).toBe("ТЫ МОЛОДЕЦ")
@@ -28,7 +29,7 @@ test('message of new post should be correct', () => {
 
 test('after deleting length of message should be decremented', () => {
 
-    let action = deletePostAC(1)
+    let action = actions.deletePostAC(1)
     let newState = profileReducer(state, action)
 
     expect(newState.posts.length).toBe(1)

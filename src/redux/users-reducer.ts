@@ -1,10 +1,10 @@
 import React from 'react';
-import {usersAPI} from "../api/api";
 import {updateObjectInArray} from '../utils/object-helpers';
-import {PhotosType, UserType} from "../types/types";
-import {Dispatch} from "redux";
+import {UserType} from "../types/types";
 import {ThunkAction} from "redux-thunk";
-import {AppStateType, InferActionsType} from "./redux-store";
+import {AppStateType, BaseThunkType, InferActionsType} from "./redux-store";
+import {usersAPI} from "../api/user-api";
+import {ResultCodeEnum} from "../api/api";
 
 export type UserInitialStateType = typeof initialState;
 
@@ -108,8 +108,7 @@ export const actions = {
 
 }
 
-
-export type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, UsersReducersTypes>
+type ThunkType = BaseThunkType<UsersReducersTypes>
 
 export const getUsersTC = (page: number, pageSize: number): ThunkType => async (dispatch) => {
     dispatch(actions.toggleIsFetching(true))
@@ -140,8 +139,8 @@ export const followTC = (userId: number): ThunkType => async (dispatch) => {
 
     dispatch(actions.toggleIsFollowing(true, userId))
 
-    let response = await usersAPI.follow(userId);
-    if (response.data.resultCode === 0) {
+    let data = await usersAPI.follow(userId);
+    if (data.resultCode === ResultCodeEnum.Success) {
         dispatch(actions.followSuccess(userId))
     }
     dispatch(actions.toggleIsFollowing(false, userId))
@@ -155,8 +154,8 @@ export const unfollowTC = (userId: number): ThunkType => async (dispatch: any) =
 
     dispatch(actions.toggleIsFollowing(true, userId))
 
-    let response = await usersAPI.unfollow(userId);
-    if (response.data.resultCode === 0) {
+    let data = await usersAPI.unfollow(userId);
+    if (data.resultCode === ResultCodeEnum.Success) {
         dispatch(actions.unfollowSuccess(userId))
     }
     dispatch(actions.toggleIsFollowing(false, userId))

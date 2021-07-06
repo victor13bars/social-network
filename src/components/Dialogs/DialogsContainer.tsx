@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {compose, Dispatch} from "redux";
 import {AppStateType} from "../../redux/redux-store";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import {DialogsReducersTypes, sendMessageAC} from "../../redux/dialogs-reducer";
+import {actions, DialogsActionTypes} from "../../redux/dialogs-reducer";
 
 let mapStateToProps = (state: AppStateType) => {
     return {
@@ -12,10 +12,10 @@ let mapStateToProps = (state: AppStateType) => {
         messages: state.dialogsPage.messages
     }
 }
-let mapDispatchToProps = (dispatch: Dispatch<DialogsReducersTypes>) => {
+let mapDispatchToProps = (dispatch: Dispatch<DialogsActionTypes>) => {
     return {
         sendMessage: (newMessageBody:string) => {
-            dispatch(sendMessageAC(newMessageBody))
+            dispatch(actions.sendMessageAC(newMessageBody))
         }
     }
 }

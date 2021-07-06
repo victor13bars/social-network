@@ -4,7 +4,8 @@ import {connect} from "react-redux";
 
 import {AppStateType} from "../../../redux/redux-store";
 import {Dispatch} from "redux";
-import {addPostAC, ProfileReducersTypes} from "../../../redux/profile-reducer";
+import {actions, ProfileActionType} from "../../../redux/profile-reducer";
+
 
 // const MyPostsContainer = () => {
 //     return (
@@ -36,10 +37,10 @@ let mapStateToProps = (state: AppStateType) => {
         posts: state.profilePage.posts
     }
 }
-let mapDispatchToProps = (dispatch: Dispatch<ProfileReducersTypes>) => {
+let mapDispatchToProps = (dispatch: Dispatch<ProfileActionType>) => {
     return {
         addPost: (newMyPost: string) => {
-            dispatch(addPostAC(newMyPost));
+            dispatch(actions.addPostAC(newMyPost));
         }
 
     }

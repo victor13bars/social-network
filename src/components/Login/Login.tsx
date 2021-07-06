@@ -17,6 +17,8 @@ export type FormDataType = {
     rememberMe: boolean
     captcha: string
 }
+type FormDataValuesTypeKeys = Extract<keyof FormDataType, string>
+
 export const LoginForm: React.FC<InjectedFormProps<FormDataType, CaptchaUrlType> & CaptchaUrlType> = ({handleSubmit, error, captchaUrl}) => {
     return (
         <form onSubmit={handleSubmit}>
@@ -54,8 +56,6 @@ type MapStatePropsType = {
 type MapDispatchPropsType = {
     login: (email: string, password: string, rememberMe: boolean, captcha: string) => void
 }
-
-type FormDataValuesTypeKeys = Extract<keyof FormDataType, string>
 
 export const Login: React.FC<MapStatePropsType & MapDispatchPropsType> = (props) => {
     const onsubmit = (formData: FormDataType) => {

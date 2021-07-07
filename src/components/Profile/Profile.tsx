@@ -1,27 +1,26 @@
 import React from "react";
-import classes from './Profile.module.css';
-import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
-
-import {ProfileDataFormType} from "./ProfileInfo/ProfileDataForm";
 import {ProfileInfoType} from "../../types/types";
 
 export type ProfilePropsType = {
     profile: null | ProfileInfoType,
     status: string,
-    updateStatusThunkCreator: (status: string) => void
+    updateStatusTC: (status: string) => void
     isOwner: boolean
-    savePhoto: (file: any) => void
-    saveProfile: (formData: ProfileDataFormType) => Promise<any>
+    savePhoto: (file: File) => void
+    saveProfile: (formData: ProfileInfoType) => Promise<any>
 }
 
-const Profile = (props: ProfilePropsType) => {
+const Profile:React.FC<ProfilePropsType> = (props) => {
     return (
         <div>
-            <ProfileInfo profile={props.profile} status={props.status}
-                         updateStatusThunkCreator={props.updateStatusThunkCreator} isOwner={props.isOwner}
-                         savePhoto={props.savePhoto} saveProfile={props.saveProfile}/>
+            <ProfileInfo profile={props.profile}
+                         status={props.status}
+                         updateStatusTC={props.updateStatusTC}
+                         isOwner={props.isOwner}
+                         savePhoto={props.savePhoto}
+                         saveProfile={props.saveProfile}/>
             <MyPostsContainer/>
         </div>
     )

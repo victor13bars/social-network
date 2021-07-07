@@ -63,17 +63,17 @@ export const actions = {
     setPhotoSuccess: (photos: PhotosType) => ({type: 'PROFILE/SAVE-PHOTO', photos} as const)
 }
 
-export const getUserProfileThunkCreator = (userId: number): ThunkType => async (dispatch) => {
+export const getUserProfileTC = (userId: number): ThunkType => async (dispatch) => {
     let data = await profileAPI.getProfile(userId);
     dispatch(actions.setUserProfile(data))
 }
 
-export const getStatusThunkCreator = (userId: number): ThunkType => async (dispatch) => {
+export const getStatusTC = (userId: number): ThunkType => async (dispatch) => {
     let data = await profileAPI.getStatus(userId);
     dispatch(actions.setStatus(data))
 }
 
-export const updateStatusThunkCreator = (status: string): ThunkType => async (dispatch) => {
+export const updateStatusTC = (status: string): ThunkType => async (dispatch) => {
     let data = await profileAPI.updateStatus(status);
 
     if (data.resultCode === ResultCodeEnum.Success) {
@@ -95,7 +95,7 @@ export const saveProfile = (profile: ProfileInfoType): ThunkType => async (dispa
 
     if (data.resultCode === 0) {
         if (userId != null) {
-            dispatch(getUserProfileThunkCreator(userId))
+            dispatch(getUserProfileTC(userId))
         } else {
             throw  new Error("userId can't be null")
         }

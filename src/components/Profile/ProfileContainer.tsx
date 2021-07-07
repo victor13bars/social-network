@@ -3,58 +3,50 @@ import Profile from "./Profile";
 import {AppStateType} from "../../redux/redux-store";
 import {connect} from "react-redux";
 
-import {
-    getStatusThunkCreator,
-    getUserProfileThunkCreator, savePhoto, saveProfile,
-    updateStatusThunkCreator
-} from "../../redux/profile-reducer";
-import {RouteComponentProps, withRouter, Redirect} from "react-router-dom";
+import {getStatusTC, getUserProfileTC, savePhoto, saveProfile, updateStatusTC} from "../../redux/profile-reducer";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
-import {ProfileDataFormType} from "./ProfileInfo/ProfileDataForm";
 import {ProfileInfoType} from "../../types/types";
 
-type MapStatePropsForRedirectType = {
-    isAuth: boolean
-}
 
-type MapStatePropsType = {
-    profile:  ProfileInfoType | null
-    status: string
-    authorizedUserId: null |number
-    isAuth: boolean
-}
+type MapStatePropsType = ReturnType<typeof mapStateToProps>
 type MapDispatchPropsType = {
-    getUserProfileThunkCreator: (userId: number) => void
-    getStatusThunkCreator: (userId: number) => void
-    updateStatusThunkCreator: (status: string) => void
-    savePhoto: (file: any) => void
-    saveProfile: (formData: ProfileDataFormType) => void
+    getUserProfileTC: (userId: number) => void
+    getStatusTC: (userId: number) => void
+    updateStatusTC: (status: string) => void
+    savePhoto: (file: File) => void
+    saveProfile: (formData: ProfileInfoType) => Promise<any>
 }
-type PathParamsTYpe = {
+type PathParamsType = {
     userId: string
 }
-type ProfilePropsType = MapDispatchPropsType & MapStatePropsType
-type PropsType = RouteComponentProps<PathParamsTYpe> & ProfilePropsType
 
-class ProfileContainer extends React.Component<any, PropsType> {
+
+type PropsType = MapStatePropsType & MapDispatchPropsType & RouteComponentProps<PathParamsType>;
+
+class ProfileContainer extends React.Component<PropsType> {
     refreshProfile() {
-        let userId = this.props.match.params.userId
+        let userId: number | null = +this.props.match.params.userId
         if (!userId) {
             userId = this.props.authorizedUserId
             if (!userId) {
-                this.props.histoty.push("/login");
+                this.props.history.push("/login")
             }
         }
-        this.props.getUserProfileThunkCreator(userId)
-        this.props.getStatusThunkCreator(userId)
+        if (!userId) {
+            console.log("ID should exists in URI params ot state ('authorizedUserId') ")
+        } else {
+            this.props.getUserProfileTC(userId)
+            this.props.getStatusTC(userId)
+        }
     }
 
     componentDidMount() {
         this.refreshProfile();
     }
 
-    componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<PropsType>, snapshot?: any) {
+    componentDidUpdate(prevProps: PropsType, prevState: PropsType) {
         if (this.props.match.params.userId != prevProps.match.params.userId) {
             this.refreshProfile();
         }
@@ -67,7 +59,7 @@ class ProfileContainer extends React.Component<any, PropsType> {
                          isOwner={!this.props.match.params.userId}
                          profile={this.props.profile}
                          status={this.props.status}
-                         updateStatusThunkCreator={this.props.updateStatusThunkCreator}
+                         updateStatusTC={this.props.updateStatusTC}
                          savePhoto={this.props.savePhoto}
                          saveProfile={this.props.saveProfile}
                 />
@@ -76,7 +68,7 @@ class ProfileContainer extends React.Component<any, PropsType> {
     }
 }
 
-let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
+let mapStateToProps = (state: AppStateType) => ({
     profile: state.profilePage.profile,
     status: state.profilePage.status,
     authorizedUserId: state.auth.id,
@@ -86,16 +78,12 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
 
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {
-        getUserProfileThunkCreator,
-        getStatusThunkCreator,
-        updateStatusThunkCreator,
+        getUserProfileTC,
+        getStatusTC,
+        updateStatusTC,
         savePhoto,
         saveProfile
     }),
     withRouter,
     withAuthRedirect
 )(ProfileContainer)
-
-// let WithUrlDataContainerComponent = withRouter(ProfileContainer)
-//
-// export default withAuthRedirect(connect(mapStateToProps, {getUserProfileThunkCreator})(WithUrlDataContainerComponent));

@@ -1,10 +1,10 @@
 import React from "react";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
-import {compose, Dispatch} from "redux";
+import {compose} from "redux";
 import {AppStateType} from "../../redux/redux-store";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import {actions, DialogsActionTypes} from "../../redux/dialogs-reducer";
+import {actions} from "../../redux/dialogs-reducer";
 
 let mapStateToProps = (state: AppStateType) => {
     return {
@@ -12,15 +12,10 @@ let mapStateToProps = (state: AppStateType) => {
         messages: state.dialogsPage.messages
     }
 }
-let mapDispatchToProps = (dispatch: Dispatch<DialogsActionTypes>) => {
-    return {
-        sendMessage: (newMessageBody:string) => {
-            dispatch(actions.sendMessageAC(newMessageBody))
-        }
-    }
-}
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, mapDispatchToProps),
+    connect(mapStateToProps, {
+        sendMessage:actions.sendMessageAC
+    }),
     withAuthRedirect
 )(Dialogs);

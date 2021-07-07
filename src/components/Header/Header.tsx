@@ -1,18 +1,16 @@
 import React from "react";
 import classes from './Header.module.css';
 import {NavLink} from "react-router-dom";
-import {AuthInitialStateType} from "../../redux/auth-reducer";
+import {MapDispatchPropsType, MapStatePropsType} from "./HeaderContainer";
 
-export type HeaderPropsType = {
-    auth: null | AuthInitialStateType
-    logout: () => void
-}
-const Header = (props: HeaderPropsType) => {
+
+const Header:React.FC<MapStatePropsType & MapDispatchPropsType> = (props) => {
     return (
         <header className={classes.header}>
             <img src="https://miro.medium.com/max/1200/1*OQOVtYZWdAqGkWmZT4_BFw.jpeg" alt=""/>
             <div className={classes.loginBlock}>
-                {props.auth?.isAuth? <div>{props.auth.login} - <button onClick={props.logout}></button></div>
+                {props.isAuth
+                    ? <div>{props.login} - <button onClick={props.logout}></button></div>
                     : <NavLink to={'/login'}>Login</NavLink>}
             </div>
         </header>

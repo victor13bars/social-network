@@ -1,12 +1,8 @@
 import React from "react";
 import classes from "./../Dialogs.module.css"
+import {MessageType} from "../../../redux/dialogs-reducer";
 
-type MessageType = {
-    id:number
-    message: string
-}
-
-const Message = (props: MessageType) => {
+const Message:React.FC<MessageType> = (props) => {
     return (
         <div className={classes.message}>
             {props.message}

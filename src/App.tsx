@@ -1,6 +1,6 @@
 import React, {Suspense} from 'react';
 import './App.css';
-import {BrowserRouter, HashRouter, Route, withRouter, Switch, Redirect} from 'react-router-dom';
+import {HashRouter, Redirect, Route, Switch, withRouter} from 'react-router-dom';
 import Navbar from "./components/Navbar/Navbar";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
@@ -20,22 +20,18 @@ const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsCo
 const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"));
 
 type MapStatePropsType = {
-    initialized: boolean,
-    // pageTitle:string
+    initialized: boolean
 }
-
-let mapStateToProps = (state: AppStateType): InitializedAuthType => ({
-    initialized: state.app.initialized
-})
 
 type MapDispatchPropsType = {
-    getAuthUserDataThunk: () => void
     initializeAppThunk: () => void
 }
-type AppPropsType = MapDispatchPropsType & MapStatePropsType;
 
-class App extends React.Component<AppPropsType> {
-    catchAllUnhandledErrors = (promiseRejectionEvent:any) => {
+const SuspendedDialogs = withSuspense(DialogsContainer);
+const SuspendedProfile = withSuspense(ProfileContainer);
+
+class App extends React.Component<MapStatePropsType & MapDispatchPropsType> {
+    catchAllUnhandledErrors = (e: PromiseRejectionEvent) => {
         alert("Some error occured")
     }
 
@@ -59,13 +55,9 @@ class App extends React.Component<AppPropsType> {
                 <div className='app-wrapper-content'>
                     <Switch>
                         <Redirect exact from="/" to="/profile"/>
-                        <Route path='/dialogs' render={() => {
-                            return <Suspense fallback={<div>Загрузка...</div>}>
-                                <DialogsContainer/>
-                            </Suspense>
-                        }}/>
-                        <Route path='/profile/:userId?' render={withSuspense(ProfileContainer)}/>
-                        <Route path='/users' render={() => <UsersContainer />}/>
+                        <Route path='/dialogs' render={() => <SuspendedDialogs/>}/>
+                        <Route path='/profile/:userId?' render={() => <SuspendedProfile/>}/>
+                        <Route path='/users' render={() => <UsersContainer/>}/>
                         <Route path='/news' component={News}/>
                         <Route path='/music' component={Music}/>
                         <Route path='/settings' component={Settings}/>
@@ -80,11 +72,16 @@ class App extends React.Component<AppPropsType> {
     }
 }
 
+
+let mapStateToProps = (state: AppStateType): InitializedAuthType => ({
+    initialized: state.app.initialized
+})
+
 let AppContainer = compose<React.ComponentType>(
     connect(mapStateToProps, {initializeAppThunk}),
     withRouter)(App);
 
-const SamuraiJSApp = () => {
+const SamuraiJSApp: React.FC = () => {
     return <HashRouter>
         <Provider store={store}>
             <AppContainer/>

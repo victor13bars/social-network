@@ -2,6 +2,8 @@ import React from 'react';
 import Paginator from "../common/Paginator/Paginator";
 import User from "./User";
 import {UserType} from "../../types/types";
+import UserSearchForm from "./UsersSearchForm";
+
 
 type PropsUsType = {
     followingInProgress: Array<number>
@@ -25,6 +27,7 @@ let Users: React.FC<PropsUsType> = ({
                                     }) => {
 
     return <div>
+        <UserSearchForm/>
         <Paginator pageSize={pageSize} totalItemsCount={totalItemsCount} portionSize={portionSize}
                    currentPage={currentPage} onPageChanged={onPageChanged}/>
         <div>
@@ -37,4 +40,5 @@ let Users: React.FC<PropsUsType> = ({
         </div>
     </div>
 }
+
 export default Users;

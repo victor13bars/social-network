@@ -26,7 +26,11 @@ beforeEach(() => {
         currentPage: 1,
         portionSize: 10,
         isFetching: true,
-        followingInProgress: []
+        followingInProgress: [],
+        filter: {
+            term: "",
+            friend: null
+        }
     }
 })
 

@@ -7,6 +7,7 @@ import {usersAPI} from "../api/user-api";
 import {ResultCodeEnum} from "../api/api";
 
 export type UserInitialStateType = typeof initialState;
+export type FilterType = typeof  initialState.filter
 
 let initialState = {
     users: [] as Array<UserType>,
@@ -15,7 +16,11 @@ let initialState = {
     currentPage: 1,
     portionSize: 10,
     isFetching: true,
-    followingInProgress: [] as Array<number>//Array of user id
+    followingInProgress: [] as Array<number>,//Array of user id
+    filter: {
+        term: "",
+        friend: null as null | boolean
+    }
 }
 
 export const usersReducer = (state = initialState, action: UsersReducersTypes): UserInitialStateType => {
@@ -47,6 +52,9 @@ export const usersReducer = (state = initialState, action: UsersReducersTypes): 
 
         case 'SET_CURRENT_PAGE':
             return {...state, currentPage: action.currentPage}
+
+        case "SET_FILTER":
+            return {...state, filter: action.payload}
 
         case 'SET_TOTAL_COUNT':
             return {...state, totalItemsCount: action.totalItemsCount}
@@ -91,6 +99,11 @@ export const actions = {
         currentPage: currentPage
     } as const),
 
+    setFilter: (filter:FilterType) => ({
+        type: 'SET_FILTER',
+        payload: filter
+    } as const),
+
     followSuccess: (userId: number) => ({
         type: 'FOLLOW',
         id: userId
@@ -110,11 +123,12 @@ export const actions = {
 
 type ThunkType = BaseThunkType<UsersReducersTypes>
 
-export const getUsersTC = (page: number, pageSize: number): ThunkType => async (dispatch) => {
+export const getUsersTC = (page: number, pageSize: number, filter:FilterType): ThunkType => async (dispatch) => {
     dispatch(actions.toggleIsFetching(true))
     dispatch(actions.setCurrentPage(page))
+    dispatch(actions.setFilter(filter))
 
-    let data = await usersAPI.getUsers(page, pageSize);
+    let data = await usersAPI.getUsers(page, pageSize,filter.term,filter.friend);
 
     dispatch(actions.toggleIsFetching(false))
     dispatch(actions.setUsers(data.items))

@@ -5,15 +5,15 @@ import Navbar from "./components/Navbar/Navbar";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
-import UsersContainer from "./components/Users/UsersContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
-import Login from "./components/Login/Login";
 import {compose} from "redux";
 import {connect, Provider} from "react-redux";
 import {initializeAppThunk, InitializedAuthType} from "./redux/app-reducer";
 import store, {AppStateType} from "./redux/redux-store";
 import Preloader from "./components/common/Preloader/Preloader";
 import {withSuspense} from "./hoc/withSuspense";
+import {UserPage} from "./components/Users/UsersContainer";
+import {Login} from "./components/Login/Login";
 // import DialogsContainer from "./components/Dialogs/DialogsContainer";
 // import ProfileContainer from "./components/Profile/ProfileContainer";
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"));
@@ -57,7 +57,7 @@ class App extends React.Component<MapStatePropsType & MapDispatchPropsType> {
                         <Redirect exact from="/" to="/profile"/>
                         <Route path='/dialogs' render={() => <SuspendedDialogs/>}/>
                         <Route path='/profile/:userId?' render={() => <SuspendedProfile/>}/>
-                        <Route path='/users' render={() => <UsersContainer/>}/>
+                        <Route path='/users' render={() => <UserPage pageTitle="SAMURAI"/>}/>
                         <Route path='/news' component={News}/>
                         <Route path='/music' component={Music}/>
                         <Route path='/settings' component={Settings}/>

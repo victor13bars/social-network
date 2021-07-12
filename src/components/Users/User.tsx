@@ -7,11 +7,11 @@ import {UserType} from "../../types/types";
 type PropsUserType = {
     followingInProgress: Array<number>
     user: UserType,
-    unfollowTC: (userId: number) => void
-    followTC: (userId: number) => void
+    unfollow: (userId: number) => void
+    follow: (userId: number) => void
 }
 
-let User:React.FC<PropsUserType> = ({user, followingInProgress, unfollowTC, followTC}) => {
+let User:React.FC<PropsUserType> = ({user, followingInProgress, unfollow, follow}) => {
 
     return (
         <div>
@@ -25,12 +25,12 @@ let User:React.FC<PropsUserType> = ({user, followingInProgress, unfollowTC, foll
                     {user.followed
                         ? <button disabled={followingInProgress.some(id => id === user.id)} onClick={() => {
 
-                            unfollowTC(user.id)
+                            unfollow(user.id)
 
                         }}>Unfollow</button>
                         : <button disabled={followingInProgress.some(id => id === user.id)} onClick={() => {
 
-                            followTC(user.id)
+                            follow(user.id)
 
                         }}>Follow</button>}
                 </div>

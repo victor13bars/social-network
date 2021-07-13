@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import classes from './MyPosts.module.css';
 import Post from "./Post/Post";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
@@ -21,6 +21,18 @@ export type DispatchPropsType = {
 const maxLength10 = maxLengthCreator(10)
 
 const MyPosts:React.FC<MapPropsType & DispatchPropsType> = (props) => {
+
+    const [a, setA] = useState(1)
+
+
+    useEffect( ()=> {
+        setTimeout( ()=> {
+            setA(2)
+            console.log('hello', a)
+        }, 2000 )
+    },[a] )
+
+
     let postsElements = props.posts.map(p => <Post key={p.id} id={p.id} message={p.message} likeCount={p.likeCount}/>)
 
     let addNewPost = (values: FormDataType) => {

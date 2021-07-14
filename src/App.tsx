@@ -1,6 +1,5 @@
 import React from 'react';
 import {HashRouter, NavLink, Redirect, Route, Switch, withRouter} from 'react-router-dom';
-import Navbar from "./components/Navbar/Navbar";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
@@ -14,15 +13,15 @@ import {UserPage} from "./components/Users/UsersContainer";
 import {Login} from "./components/Login/Login";
 import "antd/dist/antd.css";
 import './App.css';
-import {Button, Avatar, Row, Col} from "antd";
-import {Layout, Menu, Breadcrumb} from 'antd';
-import {UserOutlined, LaptopOutlined, NotificationOutlined} from '@ant-design/icons';
-import classes from "./components/Navbar/Navbar.module.css";
+import {Breadcrumb, Layout, Menu} from "antd";
+import {LaptopOutlined, NotificationOutlined, UserOutlined} from '@ant-design/icons';
 import {AppHeader} from "./components/Header/Header";
+// import ChatPage from "./pages/Chat/ChatPage";
 // import DialogsContainer from "./components/Dialogs/DialogsContainer";
 // import ProfileContainer from "./components/Profile/ProfileContainer";
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"));
 const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"));
+const ChatPage = React.lazy(() => import("./pages/Chat/ChatPage"));
 
 type MapStatePropsType = {
     initialized: boolean
@@ -34,6 +33,7 @@ type MapDispatchPropsType = {
 
 const SuspendedDialogs = withSuspense(DialogsContainer);
 const SuspendedProfile = withSuspense(ProfileContainer);
+const SuspendedChatPage = withSuspense(ChatPage);
 const {SubMenu} = Menu;
 const {Content, Footer, Sider} = Layout;
 
@@ -91,7 +91,9 @@ class App extends React.Component<MapStatePropsType & MapDispatchPropsType> {
                                     <Menu.Item key="8">option8</Menu.Item>
                                 </SubMenu>
                                 <SubMenu key="sub3" icon={<NotificationOutlined/>} title="subnav 3">
-                                    <Menu.Item key="9">option9</Menu.Item>
+                                    <Menu.Item key="9">
+                                        <NavLink to="/chat">Chat</NavLink>
+                                    </Menu.Item>
                                     <Menu.Item key="10">option10</Menu.Item>
                                     <Menu.Item key="11">option11</Menu.Item>
                                     <Menu.Item key="12">option12</Menu.Item>
@@ -108,6 +110,7 @@ class App extends React.Component<MapStatePropsType & MapDispatchPropsType> {
                                 <Route path='/music' component={Music}/>
                                 <Route path='/settings' component={Settings}/>
                                 <Route path='/login' render={() => <Login/>}/>
+                                <Route path='/chat' render={() => <SuspendedChatPage/>}/>
                                 <Route path='*' render={() => <div>404 NOT FOUND</div>}/>
                             </Switch>
                         </Content>

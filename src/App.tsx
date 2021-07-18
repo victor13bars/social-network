@@ -152,11 +152,15 @@ let AppContainer = compose
             withRouter)(App);
 
 const SamuraiJSApp: React.FC = () => {
-    return <HashRouter>
-        <Provider store={store}>
-            <AppContainer/>
-        </Provider>
-    </HashRouter>
+
+    return <>
+
+        <HashRouter>
+            <Provider store={store}>
+                <AppContainer/>
+            </Provider>
+        </HashRouter>
+    </>
 }
 
 export default SamuraiJSApp;
